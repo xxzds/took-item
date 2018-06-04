@@ -1,0 +1,248 @@
+body {
+    font-size: 17px;
+    margin: 0 auto;
+    background: #faf5f6;
+    top: 0;
+    left: 0;
+}
+
+body, button, div, img, input, li, p, span, ul {
+    margin: 0;
+    border: none;
+    padding: 0;
+    outline: 0;
+}
+
+.main-title {
+    height: 44px;
+    background: #fe4a65;
+    padding: 8px 10px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 120;
+    display: block;
+    box-sizing: border-box;
+}
+
+.main-title .menu-detail {
+    font-family: Simhei;
+    font-size: 17px;
+    height: 28px;
+    line-height: 28px;
+    color: #fff;
+    text-align: center;
+}
+
+.goods-list {
+    margin-top: 50px;
+}
+
+.goods-list, .goods-list2 {
+    padding: .4em .2em .2em;
+    text-align: center;
+    overflow: hidden;
+}
+
+.goods-list .goods-item-ads:nth-child(2n), .goods-list .goods-item:nth-child(2n) {
+    margin-right: .15em;
+    float: right;
+}
+
+.goods-list .goods-item, .goods-list .goods-item-ads {
+    width: 48%;
+    display: block;
+    text-align: left;
+    margin-bottom: .4em;
+    margin-left: .15em;
+    float: left;
+}
+
+.goods-list .goods-item a.img, .goods-list .goods-item-ads a.img {
+    width: 100%;
+    position: relative;
+    display: block;
+    padding-bottom: 100%;
+    height: 0;
+    background: #f5f5f5;
+}
+
+a {
+    text-decoration: none;
+}
+
+.ads-list .goods-item a.img .coupon-wrapper, .goods-list .goods-item a.img .coupon-wrapper, .goods-list .goods-item a.img .today-wrapper, .goods-list .goods-item-ads a.img .coupon-wrapper, .goods-list .goods-item-ads a.img .today-wrapper {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    z-index: 10;
+    font-size: 10px;
+    filter: progid:DXImageTransform.Microsoft.Gradient(startColorStr='#F2AE2E', endColorStr='#FE8102', gradientType='0');
+    background: -moz-linear-gradient(left,#F2AE2E,#FE8102);
+    background: -o-linear-gradient(left,#F2AE2E,#FE8102);
+    background: -webkit-gradient(linear,0 0,100% 100%,from(#F2AE2E),to(#FE8102));
+    height: 1rem;
+    line-height: 1rem;
+    color: #fff;
+    border-radius: 1px;
+    width: 50px;
+    text-align: center;
+    float: right;
+    font-family: "Microsoft Yahei";
+}
+
+.goods-list .goods-item a.img .today-wrapper, .goods-list .goods-item-ads a.img .today-wrapper {
+    right: 50px;
+    background: #000;
+    opacity: .5;
+    width: 35px;
+}
+
+.goods-list .goods-item a.img img.lazy {
+    background: #f5f5f5;
+}
+
+.goods-list .goods-item a.img img, .goods-list .goods-item-ads a.img img {
+    width: 100%;
+    border: none;
+    vertical-align: top;
+}
+
+.goods-list .goods-item a.title, .goods-list .goods-item-ads a.title {
+    width: 100%;
+    margin-top: .2em;
+    display: block;
+}
+
+.goods-list .goods-item a.title .text, .goods-list .goods-item-ads a.title .text {
+    word-break: break-all;
+    overflow: hidden;
+    color: #777;
+    font-size: 13px;
+    line-height: 18px;
+    text-align: left;
+    height: 18px;
+    margin: 0 5px;
+}
+
+.goods-list .goods-item .price-wrapper, .goods-list .goods-item-ads .price-wrapper {
+    position: relative;
+    margin: .2em 5px;
+}
+
+.goods-list .goods-item .price-wrapper .price, .goods-list .goods-item-ads .price-wrapper .price {
+    color: #FE0000;
+    font-size: .8rem;
+    margin-left: -.3em;
+    display: inline-block;
+    margin-top: .1em;
+    font-family: PingFang-SC-Bold,Arial;
+}
+
+.goods-list .goods-item .price-wrapper .price span, .goods-list .goods-item-ads .price-wrapper .price span {
+    font-size: 1rem;
+    font-family: Arial;
+}
+
+.price_yj {
+    font-size: 12px;
+    color: #888;
+    border-bottom: 1px solid #888;
+    height: 8px;
+    display: inline-block;
+    margin-left: 5px;
+}
+
+.goods-list .goods-item .price-wrapper .sold-wrapper, .goods-list .goods-item-ads .price-wrapper .sold-wrapper {
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.goods-list .goods-item .price-wrapper .sold-wrapper .text, .goods-list .goods-item-ads .price-wrapper .sold-wrapper .text {
+    color: #888;
+    font-size: 10px;
+}
+
+.goods-list .goods-item .price-wrapper .sold-wrapper .sold-num, .goods-list .goods-item-ads .price-wrapper .sold-wrapper .sold-num {
+    color: #888;
+    font-size: 10px;
+    font-family: Arial;
+    margin-left: 4px;
+}
+
+/*商品加载中 */
+.pullup-goods {
+    font-size: 12px;
+    height: 50px;
+    display: block;
+    line-height: 50px;
+    color: #565656;
+}
+
+.ads-list, .pullup-goods {
+    background-color: #fff;
+    text-align: center;
+}
+
+.toTop {
+    position: fixed;
+    right: 30px;
+    bottom: 65px;
+    font-family: iconfont;
+    display: none;
+    font-size: 37px;
+    width: 50px;
+    height: 50px;
+    background-color: #fff;
+    border: 1px solid #CCC;
+    border-radius: 50px;
+    text-align: center;
+    z-index: 11;
+    line-height: 50px;
+    color: #8c8c8c;
+}
+
+.footer {
+    position: fixed;
+    bottom: 0;
+    z-index: 99999999999999;
+    border-top: 1px solid #eee;
+    padding: 6px 0;
+    background: #fff;
+    width: 100%;
+}
+
+.footer ul {
+    text-align: center;
+    padding: 0;
+    margin: 0 auto;
+}
+
+.footer ul li {
+    font-size: 10px;
+    float: left;
+    width: 33%;
+}
+.footer ul li img {
+    width: 22px;
+}
+.footer ul li span {
+    display: block;
+}
+.footer ul li a {
+    color: #444;
+}
+
+li {
+    list-style: none;
+}
+
+.clearfix:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}

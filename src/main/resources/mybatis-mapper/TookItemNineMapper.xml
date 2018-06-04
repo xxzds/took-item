@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tooklili.tookitem.mapper.TookItemNineMapper">
+  <resultMap id="BaseResultMap" type="com.tooklili.tookitem.model.Item">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="cate_id" jdbcType="INTEGER" property="cateId" />
+    <result column="num_iid" jdbcType="BIGINT" property="numIid" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="pic_url" jdbcType="VARCHAR" property="picUrl" />
+    <result column="price" jdbcType="VARCHAR" property="price" />
+    <result column="coupon_price" jdbcType="VARCHAR" property="couponPrice" />
+    <result column="quan" jdbcType="VARCHAR" property="quan" />
+    <result column="quan_surplus" jdbcType="INTEGER" property="quanSurplus" />
+    <result column="quan_receive" jdbcType="INTEGER" property="quanReceive" />
+    <result column="volume" jdbcType="VARCHAR" property="volume" />
+    <result column="coupon_start_time" jdbcType="VARCHAR" property="couponStartTime" />
+    <result column="coupon_end_time" jdbcType="VARCHAR" property="couponEndTime" />
+    <result column="add_time" jdbcType="TIMESTAMP" property="addTime" />
+    <result column="shop_type" jdbcType="VARCHAR" property="shopType" />
+    <result column="intro" jdbcType="VARCHAR" property="intro" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, cate_id, num_iid, title, pic_url, price, coupon_price, quan, quan_surplus, quan_receive, 
+    volume, coupon_start_time, coupon_end_time, add_time, shop_type, intro
+  </sql>
+
+
+  <select id="queryItemNine" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from took_item_nine
+  </select>
+</mapper>

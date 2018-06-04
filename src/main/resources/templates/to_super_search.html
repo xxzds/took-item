@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" class="no-js">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no">
+    <link rel="shortcut icon" href="/Public/assets/mobile/images/ico/mobile.ico" type="image/x-icon" />
+    <title></title>
+
+    <link rel="stylesheet" type="text/css" href="//lib.baomitu.com/amazeui/2.7.2/css/amazeui.min.css"/>
+    <!--<link rel="stylesheet" type="text/css" href="/Public/assets/mobile/css/style.css?t=7" />-->
+    <link rel="stylesheet" type="text/css" href="//fqapps.oss-cn-hangzhou.aliyuncs.com/style.css" />
+
+    <script type="text/javascript" src="//lib.baomitu.com/jquery/2.2.4/jquery.min.js"></script>
+    <!--[if (gte IE 9)|!(IE)]><!-->
+    <script type="text/javascript" src="//lib.baomitu.com/amazeui/2.7.2/js/amazeui.min.js"></script>
+    <!--<![endif]-->
+
+<body>
+
+<div class="am-modal am-modal-alert" tabindex="-1" id="fq_alert">
+    <div class="am-modal-dialog">
+        <div class="am-modal-hd" id="fq_alert_title"></div>
+        <div class="am-modal-bd" id="fq_alert_info">
+        </div>
+        <div class="am-modal-footer">
+            <span class="am-modal-btn">确定</span>
+        </div>
+    </div>
+</div>
+
+<div class="am-modal am-modal-confirm" tabindex="-1" id="fq_confirm">
+    <div class="am-modal-dialog">
+        <div class="am-modal-hd" id="fq_confirm_title"></div>
+        <div class="am-modal-bd" id="fq_confirm_info"></div>
+        <div class="am-modal-footer">
+            <span class="am-modal-btn" data-am-modal-confirm>确定</span>
+        </div>
+    </div>
+</div>
+
+<div style="display:none;">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</div>
+<script type="text/javascript" src="//lib.baomitu.com/clipboard.js/1.5.15/clipboard.min.js"></script>
+<link rel="stylesheet" type="text/css" href="//at.alicdn.com/t/font_0cg36os498fzjjor.css">
+
+<style>
+    body{display:flex;justify-content:center; /*touch-action: none;*/}
+    .fq-whole{width:100%;max-width:640px}
+    header{position:relative}
+    header img{width:100%}
+    header .am-form{position:absolute;bottom:20%;display:flex;width:100%;justify-content:center}
+    header .am-form input[type=text]{padding:0 60px 0 30px;width:86%;height:40px;outline:0;border:none;background:#EEF0FF;box-shadow:0 2px 6px 0 rgba(134,124,255,.4);font-size:14px}
+    header .am-form input[type=text]::-webkit-input-placeholder{color:#9295AC}
+    header .icon-icon{position:absolute;top:1px;left:6%;display:flex;width:40px;height:36px;color:#4c4c4c;line-height:1.2;align-items:center;justify-content:center}
+    .fq-searchbtn{position:absolute;top:0;right:22px;display:flex;padding-right:4px;width:60px;height:40px;border-radius:0 1000px 1000px 0;background:#ee7951;color:white;align-items:center;justify-content:center}
+    .fq-searchbtn:active,.fq-searchbtn:focus,.fq-searchbtn:hover,.fq-searchbtn:visited{color:#4c4c4c}
+    .fq-label{display:flex;color:#4c4c4c;justify-content:space-between;align-items:center}
+    .fq-hot-label{padding:8px 16px;background:#F2F2F2;color:#6C6D76}
+    .fq-recommend a{position:relative;width:90%}
+    .fq-recommend img{width:100%}
+    .fq-coupon{padding:0 4px;border-radius:4px;background:#1fc46b;box-shadow:0 0 4px rgba(41,203,110,.36);color:#fff;font-size: 12px;}
+    .fq-super-commend{background:#f4f4f4}
+    .am-slider-default{box-shadow: none;-webkit-overflow-scrolling : touch;}
+    .fq-super-slider .am-slides li a{display:block;width:96%;border:5px;background:#F6F6F6}
+    .fq-super-slider .am-slides li a img{border:5px 5px 0 0}
+    .fq-super-messages{position:relative;display:flex;border-radius:0 0 5px 5px;justify-content:space-between;align-items:center;padding-left:2px;padding-right:2px;}
+    .fq-super-sale{position:absolute;top:-3rem;left:0;padding:2px 10px 2px 4px;border-radius:0 100px 100px 0;background:rgba(255,255,255,.94);box-shadow:0 2px 4px rgba(0,0,0,.1);color:#6C6D76;line-height:16px}
+    .fq-supersearch-course{display: flex;justify-content: space-between;align-items: center;}
+    .hide {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+    }
+</style>
+
+<div class="fq-whole am-text-sm">
+    <!--查询窗口-->
+    <header class="head am-text-center am-center">
+        <img src="http://img.fqapps.com/FgLirb6hafRdaj0WzGZUF1hCSXc_-600" />
+        <form action="" class="am-form" onSubmit="return search()">
+            <a class="iconfont icon-icon"></a>
+            <input id="itemurl" name="title" type="text" class="am-round" placeholder="输入关键词或商品标题" value="">
+            <a class="fq-searchbtn" id="clickurl">搜索</a>
+        </form>
+    </header>
+    <!--查询窗口-->
+    <!--初始界面-->
+    <!--交互界面-->
+    <div class="fq-background-white am-margin-top-xs am-padding-sm am-hide" id="searching">
+        <div class="am-text-center"><i class="am-icon-spinner am-icon-spin"></i> 正在为您查询<span id="search_title"></span>的商品优惠券，请稍后......</div>
+    </div>
+    <!--交互界面-->
+
+    <!--初始界面-->
+    <div class="fq-super-commend" id="course">
+        <div class="fq-background-white am-margin-bottom-sm am-padding-sm">
+            <div class="fq-label am-margin-bottom-sm am-text-default">
+                <span>热门标签</span>
+                <span class="am-text-xs fq-super-replace change_tickets"><i class="am-icon-refresh am-margin-right-xs"></i>换一批</span>
+            </div>
+            <div class="tickets_content">
+                <a href="/supersearch/result?title=内衣"><button type="button" class="am-btn fq-hot-label am-round am-margin-right-xs am-text-sm hot_label am-margin-bottom-sm">内衣</button></a>                            <a href="/supersearch/result?title=枕头"><button type="button" class="am-btn fq-hot-label am-round am-margin-right-xs am-text-sm hot_label am-margin-bottom-sm">枕头</button></a>                            <a href="/supersearch/result?title=衬衫"><button type="button" class="am-btn fq-hot-label am-round am-margin-right-xs am-text-sm hot_label am-margin-bottom-sm">衬衫</button></a>                            <a href="/supersearch/result?title=牛仔裤"><button type="button" class="am-btn fq-hot-label am-round am-margin-right-xs am-text-sm hot_label am-margin-bottom-sm">牛仔裤</button></a>                            <a href="/supersearch/result?title=啤酒"><button type="button" class="am-btn fq-hot-label am-round am-margin-right-xs am-text-sm hot_label am-margin-bottom-sm">啤酒</button></a>                            <a href="/supersearch/result?title=电动牙刷"><button type="button" class="am-btn fq-hot-label am-round am-margin-right-xs am-text-sm hot_label am-margin-bottom-sm">电动牙刷</button></a>                            <a href="/supersearch/result?title=行李箱"><button type="button" class="am-btn fq-hot-label am-round am-margin-right-xs am-text-sm hot_label am-margin-bottom-sm">行李箱</button></a>                            <a href="/supersearch/result?title=扫把"><button type="button" class="am-btn fq-hot-label am-round am-margin-right-xs am-text-sm hot_label am-margin-bottom-sm">扫把</button></a>                            <a href="/supersearch/result?title=眉笔"><button type="button" class="am-btn fq-hot-label am-round am-margin-right-xs am-text-sm hot_label am-margin-bottom-sm">眉笔</button></a>                            <a href="/supersearch/result?title=太阳镜"><button type="button" class="am-btn fq-hot-label am-round am-margin-right-xs am-text-sm hot_label am-margin-bottom-sm">太阳镜</button></a>             </div>
+        </div>
+        <!-- 教程 -->
+
+        <div class="fq-background-white am-padding-sm am-margin-bottom-sm  am-text-default"  style="overflow: hidden">
+            <div class="fq-supersearch-course ">
+                <span>查券教程</span>
+                <img style="width:63px;height:23px;display:none;"  class="show_tutorial tutorial_switch" data-switch="0"  th:src="@{/images/show.png}" />
+                <img style="width:63px;height:23px;display:none;" class="hidden_tutorial tutorial_switch"  data-switch="0" th:src="@{/images/hidden.png}" />
+            </div>
+            <div class="tutorial">
+                <div class="fq-background-white am-padding-vertical-sm am-text-center">
+                    <img src="http://files.fqapps.com/way20180413-105346.png" style="width:100%;"/>
+                    <div data-am-widget="slider" class="am-slider am-slider-default" style="width:100%;" data-am-slider='{}' >
+                        <ul class="am-slides tutorial_img">
+                            <li>
+                                <img th:src="@{/images/tutorial1.png}">
+                            </li>
+                            <li>
+                                <img th:src="@{/images/tutorial6.png}">
+                            </li>
+                            <li>
+                                <img th:src="@{/images/tutorial3.png}">
+                            </li>
+                            <li>
+                                <img th:src="@{/images/tutorial4.png}">
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+
+    <script>
+
+        $('#itemurl').val('');
+
+        $('.hot_label').click(function(){
+            $('#itemurl').val($(this).text());
+        });
+
+        $('#clickurl').click(function(){
+            var itemurl = $('#itemurl').val().match(/[a-zA-z]+:\/\/[^\s]*/);
+            if(itemurl){
+                $('#fq_alert_info').text('请使用商品标题搜索');
+                $('#fq_alert').modal();
+                return false;
+            }
+            if($('#itemurl').val()==''){
+                $('#fq_alert_info').text('请输入商品标题');
+                $('#fq_alert').modal();
+                return false;
+            }
+            if($('#agent_pname').text()!=''){
+                window.location.href='/super_search?agent_pname='+$('#agent_pname').text()+'&title='+$.trim($('#itemurl').val());
+            }else{
+                window.location.href='/super_search?title='+$.trim($('#itemurl').val());
+            }
+        });
+
+        function search(){
+            var itemurl = $('#itemurl').val().match(/[a-zA-z]+:\/\/[^\s]*/);
+            if(itemurl){
+                $('#fq_alert_info').text('请使用商品标题搜索');
+                $('#fq_alert').modal();
+                return false;
+            }
+            debugger;
+
+            if($('#agent_pname').text()!=''){
+                window.location.href='/super_search?agent_pname='+$('#agent_pname').text()+'&title='+$.trim($('#itemurl').val());
+            }else{
+                window.location.href='/super_search?title='+decodeURI($.trim($('#itemurl').val()));
+            }
+            return false;
+        }
+    </script>
+
+
+
+
+
+</body>
+</html>
+
+<script>
+    //热门标签
+    $('.change_tickets').click(function(){
+        $('.change_tickets').css('display','none');
+        $.ajax({
+            url:"http://m.jianfei555.cn/supersearch/api_get_tickets.html",
+            success:function(data){
+                $('.change_tickets').css('display','block');
+                var tickets_array = data.tickets;
+                var tickets_list_array = data.tickets_list;
+                var str = '';
+                for(var K=0;K<10;K++){
+                    var key = tickets_array[K];
+                    var tickets_name = tickets_list_array[key];
+                    var agent_pname = "";
+                    if(agent_pname==""){
+                        str += '<a href="/supersearch/result/title/'+tickets_name+'"><button type="button" class="am-btn fq-hot-label am-round am-margin-right-xs am-text-sm hot_label am-margin-bottom-sm">'+tickets_name+'</button></a>';
+                    }else{
+                        str += '<a href="/supersearch/result/agent_pname/'+agent_pname+'/title/'+tickets_name+'"><button type="button" class="am-btn fq-hot-label am-round am-margin-right-xs am-text-sm hot_label am-margin-bottom-sm">'+tickets_name+'</button></a>';
+                    }
+                }
+                $('.tickets_content').html(str);
+            }
+        });
+    })
+
+</script>
+
+
+<script>
+
+    /* var width = $(window).width()- 24; */
+    var hidden_switch = localStorage.getItem("hidden_switch");
+
+    if(hidden_switch == 0){
+        $('.tutorial_switch').attr('data-switch','1');
+        $('.tutorial').css('height','0');
+        $('.tutorial').css('visibility','hidden');
+        $('.show_tutorial').show();
+    }else{
+        $('.tutorial_switch').attr('data-switch','0');
+        $('.tutorial').css('height','auto');
+        $('.tutorial').css('visibility','visible ');
+        $('.hidden_tutorial').show();
+    }
+
+
+    $('.tutorial_switch').click(function(){
+        var status = $(this).attr('data-switch');
+        if(status == 1){
+            window.localStorage.setItem("hidden_switch",1);
+            $('.tutorial_switch').attr('data-switch','0');
+            $('.show_tutorial').hide();
+            $('.hidden_tutorial').show();
+            $('.tutorial').css('height','auto');
+            $('.tutorial').css('visibility','visible');
+        }else{
+            window.localStorage.setItem("hidden_switch",0);
+            $('.tutorial_switch').attr('data-switch','1');
+            $('.hidden_tutorial').hide();
+            $('.show_tutorial').show();
+            $('.tutorial').css('height','0');
+            $('.tutorial').css('visibility','hidden');
+
+        }
+
+    })
+</script>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    <title th:with="title=${cate eq 'nine'} ? '9块9':'20元'">[[${title}]]</title>
+    <link th:href="@{/css/common.css?v=201805271740}" rel="stylesheet" type="text/css">
+</head>
+<body>
+
+<!--head-->
+<div class="main-title clearfix theme-bg-color-1">
+    <div class="menu-detail" th:switch="${cate}">
+        <span th:case="'nine'">9.9包邮</span>
+        <span th:case="'twenty'">20包邮</span>
+        <span th:case="*">[[${cate}]]</span>
+    </div>
+</div>
+
+<!--content-->
+<div class="goods-list" data-page="2">
+    <div class="goods-item" th:each="item:${items}">
+        <a data-gid="" href="/item_detail" class="img" th:href="@{'/item_detail'(title=${item.title},picUrl=${item.picUrl},price=${item.price}
+        ,couponPrice=${item.couponPrice},quan=${item.quan},volume=${item.volume},numId=${item.numIid})}">
+
+            <span class="coupon-wrapper  theme-bg-color-1" th:if="${item.quan} ne 0">券 <i>￥</i><b>[[${item.quan}]]</b></span>
+            <span class="today-wrapper" th:if="${item.quan} ne 0"><b>NEW</b></span>
+            <img class="lazy" th:src="${item.picUrl}" alt="">
+        </a>
+        <a data-gid="9042268" href="" class="title">
+            <div class="text">[[${item.title}]]</div>
+        </a>
+        <div class="price-wrapper">
+            <span class="price">￥<span>[[${item.couponPrice}]]</span></span><span class="price_yj" th:if="${item.quan} ne 0">￥[[${item.price}]]</span>
+            <div class="sold-wrapper"><span class="text">销量</span><span class="sold-num">[[${item.volume}]]</span></div>
+        </div>
+    </div>
+
+</div>
+
+<div class="pullup-goods">
+    <div class="label">商品加载中...</div>
+</div>
+
+<div class="toTop">&#xe6a4;</div>
+
+<div class="footer">
+    <ul>
+        <li><a th:href="@{/query_item/nine}"><img src="images/9.9.png" th:src="@{/images/9.9.png}"><span>九块九</span></a></li>
+        <li><a th:href="@{/query_item/twenty}"><img src="images/jian.png" th:src="@{/images/jian.png}"><span>20元封顶</span></a></li>
+        <li><a th:href="@{/to_super_search}"><img src="images/s.png" th:src="@{/images/s.png}"><span>超级搜</span></a></li>
+    </ul>
+</div>
+
+<script th:src="@{/js/plugin/jquery.min.js?v=201805271740}"></script>
+<script th:src="@{/js/plugin/lazyload.js?v=201805271740}"></script>
+<script th:src="@{/js/item.js?v=201805271740}"></script>
+
+</body>
+</html>
