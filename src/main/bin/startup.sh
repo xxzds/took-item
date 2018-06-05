@@ -17,10 +17,10 @@ CLASSPATH=$CLASSPATH:$CURRENT_DIR"/../lib/*"
 
 # echo $CLASSPATH
 
-APPNAME=com.iflytek.edmp.AppStart
+APPNAME=com.tooklili.tookitem.TookItemApplication
 
-java -Xms2048M -Xmx2048M -classpath $CLASSPATH $APPNAME start >/dev/null 2>&1 &
+java -Xms256M -Xmx256M -classpath $CLASSPATH $APPNAME start >/dev/null 2>&1 &
 
-echo $! > "./cms-server.pid"
+echo $! > "./took-item.pid"
 
 echo "started"

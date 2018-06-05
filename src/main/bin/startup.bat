@@ -14,9 +14,9 @@ SET CP=%CP%;%CURRENT_DIR%/../lib/*
 
 echo %CP%
 
-SET APPNAME=com.iflytek.edmp.AppStart
+SET APPNAME=com.tooklili.tookitem.TookItemApplication
 
-java -Xms2048m -Xmx2048m -classpath "%CP%" %APPNAME% %1
+java -Xms256m -Xmx256m -classpath "%CP%" %APPNAME% %1
 
 
 

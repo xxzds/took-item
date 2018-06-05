@@ -40,7 +40,7 @@ public class ItemController {
      * @return
      */
     @RequestMapping("/query_item/{cateEnum}")
-    public String queryItem(Model model,@PathVariable  CateEnum cateEnum){
+    public String queryItem(Model model,@PathVariable CateEnum cateEnum){
         if(cateEnum == null){
             model.addAttribute("error","分类id不能为空");
             return "error";

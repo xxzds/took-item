@@ -6,7 +6,6 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no">
-    <link rel="shortcut icon" href="/Public/assets/mobile/images/ico/mobile.ico" type="image/x-icon" />
     <title></title>
 
     <link rel="stylesheet" type="text/css" href="//lib.baomitu.com/amazeui/2.7.2/css/amazeui.min.css"/>
@@ -160,11 +159,8 @@
                 $('#fq_alert').modal();
                 return false;
             }
-            if($('#agent_pname').text()!=''){
-                window.location.href='/super_search?agent_pname='+$('#agent_pname').text()+'&title='+$.trim($('#itemurl').val());
-            }else{
-                window.location.href='/super_search?title='+$.trim($('#itemurl').val());
-            }
+
+            window.location.href='/super_search?title='+decodeURI($.trim($('#itemurl').val()));
         });
 
         function search(){
@@ -174,13 +170,8 @@
                 $('#fq_alert').modal();
                 return false;
             }
-            debugger;
 
-            if($('#agent_pname').text()!=''){
-                window.location.href='/super_search?agent_pname='+$('#agent_pname').text()+'&title='+$.trim($('#itemurl').val());
-            }else{
-                window.location.href='/super_search?title='+decodeURI($.trim($('#itemurl').val()));
-            }
+            window.location.href='/super_search?title='+decodeURI($.trim($('#itemurl').val()));
             return false;
         }
     </script>

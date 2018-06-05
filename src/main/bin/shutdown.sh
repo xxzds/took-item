@@ -5,8 +5,8 @@
 #        exit 1
 #fi
 
-kill -15 `cat "./cms-server.pid"`
+kill -15 `cat "./took-item.pid"`
 
-rm -f "./cms-server.pid" >/dev/null 2>&1
+rm -f "./took-item.pid" >/dev/null 2>&1
 
 echo "stoped"
