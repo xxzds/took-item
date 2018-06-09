@@ -2,12 +2,18 @@ package com.tooklili.tookitem.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.google.common.base.Function;
+import com.google.common.collect.Lists;
 import com.tooklili.tookitem.model.AlimamaItemLink;
 import com.tooklili.tookitem.model.Item;
+import com.tooklili.tookitem.model.TookHotKeyword;
 import com.tooklili.tookitem.model.enums.CateEnum;
 import com.tooklili.tookitem.model.vo.ItemDetailVo;
+import com.tooklili.tookitem.result.ListResult;
 import com.tooklili.tookitem.result.PageResult;
+import com.tooklili.tookitem.result.PlainResult;
 import com.tooklili.tookitem.service.TookItemNineService;
+import com.tooklili.tookitem.service.TookItemService;
 import com.tooklili.tookitem.service.TookItemTwentyService;
 import com.tooklili.tookitem.util.HttpClientUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +21,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -32,11 +40,36 @@ public class ItemController {
     @Autowired
     private TookItemTwentyService tookItemTwentyService;
 
+    @Autowired
+    private TookItemService tookItemService;
+
+
+    /**
+     * 获取热门关键字
+     * @param count
+     * @return
+     */
+    @RequestMapping("/random_keyword")
+    @ResponseBody
+    public ListResult<String> getRandomKeywords(Integer count){
+        ListResult<String> result = new ListResult<String>();
+
+        List<TookHotKeyword> tookHotKeywords =  tookItemService.getRandomKeywords(count);
+
+        result.setData(Lists.transform(tookHotKeywords, new Function<TookHotKeyword, String>() {
+            @Override
+            public String apply(TookHotKeyword input) {
+                return input.getKeyword();
+            }
+        }));
+        return result;
+    }
+
 
     /**
      * 查询产品列表
      * @param model
-     * @param cateEnum
+     * @param cateEnum nine 九块9  twenty 20元
      * @return
      */
     @RequestMapping("/query_item/{cateEnum}")

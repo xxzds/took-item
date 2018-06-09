@@ -3,14 +3,18 @@ package com.tooklili.tookitem.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.tooklili.tookitem.model.Item;
+import com.tooklili.tookitem.model.TookHotKeyword;
 import com.tooklili.tookitem.result.PageResult;
+import com.tooklili.tookitem.service.TookItemService;
 import com.tooklili.tookitem.util.HttpClientUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -20,12 +24,19 @@ import java.util.Map;
 @Controller
 public class SuperSearchController {
 
+    @Autowired
+    private TookItemService tookItemService;
+
     /**
      * 到超级搜索页面
      * @return
      */
     @RequestMapping("to_super_search")
-    public String toSuperSearch(){
+    public String toSuperSearch(Model model){
+        //查询热门关键字
+        List<TookHotKeyword> tookHotKeywords = tookItemService.getRandomKeywords(10);
+        model.addAttribute("tookHotKeywords",tookHotKeywords);
+
         return "to_super_search";
     }
 
@@ -37,14 +48,38 @@ public class SuperSearchController {
      * @return
      */
     @RequestMapping("super_search")
-    public String superSearch(Model model,String title){
+    public String superSearch(Model model,String title,Integer status,Boolean hasHyq){
         //关键字
         model.addAttribute("title",title);
 
+        Map<String,String> params = new HashMap<>();
+        //选中的条件
+        if(status != null){
+            model.addAttribute("status",status);
+
+            switch (status){
+                case 0:  //综合
+                    break;
+                case 1: //人气
+                    params.put("queryType","2");
+                    break;
+                case 2:  //销量
+                    params.put("sortType","9");
+                    break;
+                case 3:  //价格
+                    params.put("sortType","3");
+                    break;
+            }
+        }
+
+        //只选择有优惠券的商品
+        if(hasHyq !=null && hasHyq==true){
+            model.addAttribute("hasHyq",hasHyq);
+            params.put("dpyhq","1");
+        }
 
         //查询商品
         String url = "http://www.tooklili.com/tookApp/superSearchItems";
-        Map<String,String> params = new HashMap<>();
         params.put("q",title);
         String content = HttpClientUtils.doPost(url,params);
 
