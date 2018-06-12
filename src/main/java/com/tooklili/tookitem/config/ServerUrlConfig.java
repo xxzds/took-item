@@ -51,7 +51,7 @@ public class ServerUrlConfig {
              HttpServletRequest request = requestAttributes.getRequest();
               baseUrl = WebUtils.getLocaleUrlRoot(request)+"/tookApp";
          }else{
-              baseUrl = "http://zch.tooklili.com/tookApp";
+              baseUrl = "http://www.tooklili.com/tookApp";
          }
 
          LOGGER.info("服务接口请求的基础url：{}",baseUrl);
