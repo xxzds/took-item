@@ -44,6 +44,9 @@ public class ItemController {
     @Autowired
     private TookItemService tookItemService;
 
+    @Autowired
+    private ServerUrlConfig serverUrlConfig;
+
 
     /**
      * 获取热门关键字
@@ -135,14 +138,14 @@ public class ItemController {
         //随机获取4个商品
         Map<String,String> params0 = new HashMap<>();
         params0.put("size","4");
-        String content0 = HttpClientUtils.doPost(ServerUrlConfig.randomItemUrl,params0);
+        String content0 = HttpClientUtils.doPost(serverUrlConfig.getRandomItemUrl(),params0);
         model.addAttribute("items",JSON.parseArray(JSON.parseObject(content0).get("data").toString(),Item.class));
 
 
         //获取淘口令
         Map<String,String> params = new HashMap<>();
         params.put("auctionid",itemDetailVo.getNumId());
-        String content = HttpClientUtils.doPost(ServerUrlConfig.twdAndShortLinkInfoUrl,params);
+        String content = HttpClientUtils.doPost(serverUrlConfig.getTwdAndShortLinkInfoUrl(),params);
         JSONObject jsonObject =  JSON.parseObject(content);
         model.addAttribute("tklAndLink",JSON.parseObject(jsonObject.get("data").toString(),AlimamaItemLink.class));
 

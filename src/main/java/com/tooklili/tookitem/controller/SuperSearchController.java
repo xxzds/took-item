@@ -28,6 +28,9 @@ public class SuperSearchController {
     @Autowired
     private TookItemService tookItemService;
 
+    @Autowired
+    private ServerUrlConfig serverUrlConfig;
+
     /**
      * 到超级搜索页面
      * @return
@@ -111,7 +114,7 @@ public class SuperSearchController {
         params.put("currentPage",currentPage.toString());
         params.put("pageSize",pageSize.toString());
 
-        String content = HttpClientUtils.doPost(ServerUrlConfig.superSearchItemsUrl,params);
+        String content = HttpClientUtils.doPost(serverUrlConfig.getSuperSearchItemsUrl(),params);
 
         PageResult<Item> result = JSON.parseObject(content,new TypeReference< PageResult< Item>>(){});
 
