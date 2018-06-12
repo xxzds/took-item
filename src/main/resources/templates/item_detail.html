@@ -739,7 +739,8 @@
             type: "POST",
             url:  "http://www.tooklili.com/tookApp/getQrCodeBase64",
             data: {
-                url: window.location.href
+                url: window.location.href,
+                isConvertShortUrl:true
             },
             dataType: "json",
             success: function(result) {
