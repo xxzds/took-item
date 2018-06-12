@@ -29,5 +29,6 @@
     select
     <include refid="Base_Column_List" />
     from took_item_nine
+    order by LENGTH (volume) desc ,volume desc
   </select>
 </mapper>

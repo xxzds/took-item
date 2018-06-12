@@ -512,6 +512,10 @@
 
 
 <script th:inline="javascript">
+    /*<![CDATA[*/
+    var context = /*[[@{/}]]*/;
+    /*]]>*/
+
     //标识选中的条件
     var status =[[${status}]];
     if(typeof(status)  == 'undefined' || status == null){
@@ -583,7 +587,7 @@
         loadDownFn : function(me){
             $.ajax({
                 type: 'POST',
-                url: '/super_search_list',
+                url:context+ '/super_search_list',
                 data:{'currentPage':requestStart,'pageSize':20,'title':$.trim($('#itemurl').val())},
                 dataType: 'json',
                 success: function(result){
@@ -670,12 +674,12 @@
     $('.fq-sort').click(function(){
 
          status = $(this).attr('data-status');
-        window.location.href='/super_search?title='+encodeURI($.trim($('#itemurl').val()))+"&status="+status+"&hasHyq="+hasHyq;
+        window.location.href=context+'/super_search?title='+encodeURI($.trim($('#itemurl').val()))+"&status="+status+"&hasHyq="+hasHyq;
     });
 
     //优惠券的选择事件
     $("#yhq").change(function() {
         hasHyq =$('#yhq').prop('checked');
-        window.location.href='/super_search?title='+encodeURI($.trim($('#itemurl').val()))+"&status="+status+"&hasHyq="+hasHyq;
+        window.location.href=context+'/super_search?title='+encodeURI($.trim($('#itemurl').val()))+"&status="+status+"&hasHyq="+hasHyq;
     });
 </script>

@@ -7,6 +7,11 @@
 
     <title th:with="title=${cate eq 'nine'} ? '9块9':'20元'">[[${title}]]</title>
     <link th:href="@{/css/common.css?v=201805271740}" rel="stylesheet" type="text/css">
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        var context = /*[[@{/}]]*/;
+        /*]]>*/
+    </script>
 </head>
 <body>
 

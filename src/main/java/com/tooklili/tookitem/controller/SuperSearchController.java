@@ -2,6 +2,7 @@ package com.tooklili.tookitem.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
+import com.tooklili.tookitem.config.ServerUrlConfig;
 import com.tooklili.tookitem.model.Item;
 import com.tooklili.tookitem.model.TookHotKeyword;
 import com.tooklili.tookitem.result.PageResult;
@@ -56,36 +57,16 @@ public class SuperSearchController {
         //选中的条件
         if(status != null){
             model.addAttribute("status",status);
-
-            switch (status){
-                case 0:  //综合
-                    break;
-                case 1: //人气
-                    params.put("queryType","2");
-                    break;
-                case 2:  //销量
-                    params.put("sortType","9");
-                    break;
-                case 3:  //价格
-                    params.put("sortType","3");
-                    break;
-            }
         }
 
         //只选择有优惠券的商品
         if(hasHyq !=null && hasHyq==true){
             model.addAttribute("hasHyq",hasHyq);
-            params.put("dpyhq","1");
         }
 
         //查询商品
-        String url = "http://www.tooklili.com/tookApp/superSearchItems";
-        params.put("q",title);
-        String content = HttpClientUtils.doPost(url,params);
-
-        PageResult<Item> result = JSON.parseObject(content,new TypeReference< PageResult< Item>>(){});
+        PageResult<Item> result = super_search_list(title,status,hasHyq,1,20);
         model.addAttribute("items",result.getData());
-
 
         return "super_search";
     }
@@ -100,14 +81,37 @@ public class SuperSearchController {
      */
     @RequestMapping("super_search_list")
     @ResponseBody
-    public PageResult<Item> super_search_list(String title,Integer currentPage,Integer pageSize){
-        String url = "http://www.tooklili.com/tookApp/superSearchItems";
+    public PageResult<Item> super_search_list(String title,Integer status,Boolean hasHyq,Integer currentPage,Integer pageSize){
+
         Map<String,String> params = new HashMap<>();
+        //选中的条件
+        if(status != null){
+            switch (status){
+                case 0:  //综合
+                    break;
+                case 1: //人气
+                    params.put("queryType","2");
+                    break;
+                case 2:  //销量
+                    params.put("sortType","9");
+                    break;
+                case 3:  //价格
+                    params.put("sortType","3");
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        //只选择有优惠券的商品
+        if(hasHyq !=null && hasHyq==true){
+            params.put("dpyhq","1");
+        }
         params.put("q",title);
         params.put("currentPage",currentPage.toString());
         params.put("pageSize",pageSize.toString());
 
-        String content = HttpClientUtils.doPost(url,params);
+        String content = HttpClientUtils.doPost(ServerUrlConfig.superSearchItemsUrl,params);
 
         PageResult<Item> result = JSON.parseObject(content,new TypeReference< PageResult< Item>>(){});
 
