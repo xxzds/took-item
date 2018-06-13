@@ -28,7 +28,7 @@
 <div class="goods-list" data-page="2">
     <div class="goods-item" th:each="item:${items}">
         <a data-gid="" href="/item_detail" class="img" th:href="@{'/item_detail'(title=${item.title},picUrl=${item.picUrl},price=${item.price}
-        ,couponPrice=${item.couponPrice},quan=${item.quan},volume=${item.volume},numId=${item.numIid})}">
+        ,couponPrice=${item.couponPrice},quan=${item.quan},volume=${item.volume},numId=${item.numIid},shopType=${item.shopType})}">
 
             <span class="coupon-wrapper  theme-bg-color-1" th:if="${item.quan} ne 0">券 <i>￥</i><b>[[${item.quan}]]</b></span>
             <span class="today-wrapper" th:if="${item.quan} ne 0"><b>NEW</b></span>

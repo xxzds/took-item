@@ -140,9 +140,8 @@
 </style>
 
 
-<div class="detail-wrapper img" th:with="link=${#strings.isEmpty(tklAndLink.couponLink)}  ? ${tklAndLink.clickUrl} : ${tklAndLink.couponLink}">
-
-    <a th:href="@{${link}}" class="tb_app">
+<div class="detail-wrapper img">
+    <a href="javascript" class="tb_app">
         <div class="swiper-container">
             <div class="swiper-wrapper img">
                 <div data-gid="9647740" class="swiper-slide"
@@ -220,12 +219,9 @@
     <div class="buy-cent">
         <div class="buy-wrapper-box">
             <div class="cent">
-                <a href="javascript:;" onclick="$canvasImage.getCodeShow($('#codeText').val());"><i class="buy_svg_code"></i>通过口令分享</a>
+                <a href="javascript:;" id="klfx"><i class="buy_svg_code"></i>通过口令分享</a>
                 <a href="javascript:;" onclick="getCanvasImage()"><i class="buy_svg_img"></i>通过图片分享</a>
-                <textarea style="display: none;" id="codeText" th:with="token=${#strings.isEmpty(tklAndLink.couponLinkTaoToken)} ? ${tklAndLink.taoToken} : ${tklAndLink.couponLinkTaoToken}">[[${item.title}]]
-【原价】[[${item.price}]]
-【券后】[[${item.couponPrice}]]元
-【复制此信息打开手机淘宝即可查看并下单】[[${token}]]</textarea>
+                <textarea style="display: none;" id="codeText"></textarea>
                 <em></em>
             </div>
         </div>
@@ -239,17 +235,13 @@
             </li>
 
 
-            <li class="col-sm-4" th:with="token=${#strings.isEmpty(tklAndLink.couponLinkTaoToken)} ? ${tklAndLink.taoToken} : ${tklAndLink.couponLinkTaoToken}">
-
-                <a href="javascript:;" class="buy-btn buy-btn-secondary"
-                   th:onclick="|$canvasImage.getCodeShopping({code:'${token}',pic:'${item.picUrl}_480x480.jpg' });|">
-                    淘口令
-                </a>
+            <li class="col-sm-4">
+                <a href="javascript:;" class="buy-btn buy-btn-secondary" id="tbk">淘口令</a>
             </li>
 
 
-            <li class="col-sm-4" th:with="link=${#strings.isEmpty(tklAndLink.couponLink)}  ? ${tklAndLink.clickUrl} : ${tklAndLink.couponLink}">
-                <a th:href="@{${link}}" id="getGoodsLink" class="buy-btn buy-btn-primary tb_app">领券购买 </a>
+            <li class="col-sm-4">
+                <a href="javascript:;" id="getGoodsLink" class="buy-btn buy-btn-primary tb_app">领券购买 </a>
             </li>
 
 
@@ -656,6 +648,110 @@
         }
 
     }
+
+    //淘口令
+    $('#tbk').click(function(){
+        getTkl([[${item.numId}]],2);
+    });
+
+    //通过口令分享
+    $('#klfx').click(function () {
+        getTkl([[${item.numId}]],3);
+    });
+
+    //领券购买
+    $('#getGoodsLink').click(function () {
+        getTkl([[${item.numId}]],1);
+    });
+
+
+    var jumpUrl;  //直接购买地址
+    var content;  //口令分享的内容
+    var tkl;    //淘口令的复制内容
+    /**
+     *获取淘口令
+     * @param numIid  商品id
+     * @param type   1、领券购买  2、淘口令 3、通过口令分享
+     */
+    function getTkl(numIid,type) {
+        if(type == 1 && jumpUrl != null){
+            window.location.href = jumpUrl;
+            return;
+        }
+
+        if(type == 2 && tkl != null){
+            $canvasImage.getCodeShopping({code:tkl,pic:[[${item.picUrl}]]+"_480x480.jpg"});
+            return;
+
+        }
+
+        if(type ==3 && content != null){
+            $canvasImage.getCodeShow($('#codeText').val())
+            return ;
+        }
+
+
+        $.ajax({
+            type: "POST",
+            url: "http://www.tooklili.com/tookApp/getTwdAndShortLinkInfo",
+            data: {
+                auctionid: numIid,
+            },
+            dataType: "json",
+            success: function (result) {
+                if (!result.success) {
+                    alert("调用接口失败");
+                    return;
+                }
+
+                var data = result.data;
+
+                //跳转链接
+                var a = navigator.userAgent;
+                if (a.indexOf('wechat') > -1 || a.indexOf("MicroMessenger") > -1) {
+                    jumpUrl = "http://www.tooklili.com:81/taobao?backurl=" + encodeURIComponent(data.couponLink || data.clickUrl);
+                } else {
+                    jumpUrl = data.couponLink || data.clickUrl;
+                }
+
+                //淘口令
+                tkl = data.couponLinkTaoToken || data.taoToken;
+
+                //口令分享
+                content=[[${item.title}]];
+                content+="\n【在售价】"+[[${item.price}]]+"元"
+                content+="\n【券后价】"+[[${item.couponPrice}]]+"元";
+                content+="\n【下单链接】"+ (data.customCouponShortLinkUrl || data.shortLinkUrl);
+                content+="\n-----------------";
+                content+="\n复制这条信息，"+(data.couponLinkTaoToken || data.taoToken)+" ，打开【手机淘宝】即可查看";
+                $('#codeText').html(content);
+
+
+                if(type == 1 && jumpUrl != null){
+                    window.location.href = jumpUrl;
+                    return;
+                }
+
+                if(type == 2 && tkl != null){
+                    $canvasImage.getCodeShopping({code:tkl,pic:[[${item.picUrl}]]+"_480x480.jpg"});
+                    return;
+
+                }
+
+                if(type ==3 && content != null){
+                    $canvasImage.getCodeShow($('#codeText').val())
+                    return ;
+                }
+
+
+            },
+            error: function () {
+                alert("网络异常");
+            }
+        });
+    }
+
+
 
 </script>
 </body>

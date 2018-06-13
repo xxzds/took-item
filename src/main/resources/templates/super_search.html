@@ -589,7 +589,7 @@
             $.ajax({
                 type: 'POST',
                 url:context+ 'super_search_list',
-                data:{'currentPage':requestStart,'pageSize':20,'title':$.trim($('#itemurl').val())},
+                data:{'currentPage':requestStart,'pageSize':20,'title':$.trim($('#itemurl').val()),'status':status,'hasHyq':hasHyq},
                 dataType: 'json',
                 success: function(result){
                     var data = result.data;
