@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>测试页面</title>
+</head>
+<body>
+    变量表达式：
+    <div th:text="${item.title}"></div>
+    选择(星号)表达式：
+    <div th:object="${item}">
+        <span th:text="*{title}">...</span>
+    </div>
+url表达式：
+    <a href="http://www.baidu.com" th:href="@{/css/common.css(v=20180615)}">链接</a>
+文本替换：
+<div th:text="|this title is ${item.title}|"></div>
+    <div th:text="'this title is'+ ${item.title}"></div>
+utext支持html文本替换：
+<div th:utext="${htmlcontent}">666</div>
+th:with 变量赋值运算：
+<div th:with="titlenew=${item.title}+'333'">
+    <span th:text="${titlenew}"></span>
+</div>
+
+th:include 引入公共的代码片段（替换内容到引入的文件）:
+<div th:include="test/test_template::alert"></div>
+th:replace 替换内容到引入的文件：
+<div th:replace="test/test_template::alert"></div>
+
+
+布局
+    <div th:fragment="navbar"  class="wrapper"  role="navigation">
+        <div th:replace="test/test_template  :: header">Header</div>
+        <div th:replace="test/test_template :: left(leftIndex=2)">left</div>
+        <div th:replace="test/test_template :: sidebar">sidebar</div>
+        <div id="content">content</div>
+        <div th:replace="test/test_template :: footer">footer</div>
+    </div>
+
+
+</body>
+</html>

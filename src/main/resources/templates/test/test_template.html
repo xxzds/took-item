@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org">
+<!--fragment布局标签，定义一个代码片段，方便其它地方引用-->
+<div th:fragment="alert">
+    <div>这个是个弹出公共代码</div>
+</div>
+
+
+<div th:fragment="header">
+    head
+</div>
+
+<div th:fragment="footer">
+    footer
+</div>
+
+<div th:fragment="left(leftIndex)">
+    left[[${leftIndex}]]
+</div>
+
+<div th:fragment="sidebar">
+    sidebar
+</div>
+</html>
