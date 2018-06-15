@@ -1,18 +1,15 @@
 package com.tooklili.tookitem.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 import com.tooklili.tookitem.config.ServerUrlConfig;
-import com.tooklili.tookitem.model.AlimamaItemLink;
 import com.tooklili.tookitem.model.Item;
 import com.tooklili.tookitem.model.TookHotKeyword;
 import com.tooklili.tookitem.model.enums.CateEnum;
 import com.tooklili.tookitem.model.vo.ItemDetailVo;
 import com.tooklili.tookitem.result.ListResult;
 import com.tooklili.tookitem.result.PageResult;
-import com.tooklili.tookitem.result.PlainResult;
 import com.tooklili.tookitem.service.TookItemNineService;
 import com.tooklili.tookitem.service.TookItemService;
 import com.tooklili.tookitem.service.TookItemTwentyService;
@@ -43,6 +40,9 @@ public class ItemController {
 
     @Autowired
     private TookItemService tookItemService;
+
+    @Autowired
+    private ServerUrlConfig serverUrlConfig;
 
 
     /**
@@ -135,16 +135,16 @@ public class ItemController {
         //随机获取4个商品
         Map<String,String> params0 = new HashMap<>();
         params0.put("size","4");
-        String content0 = HttpClientUtils.doPost(ServerUrlConfig.randomItemUrl,params0);
+        String content0 = HttpClientUtils.doPost(serverUrlConfig.getRandomItemUrl(),params0);
         model.addAttribute("items",JSON.parseArray(JSON.parseObject(content0).get("data").toString(),Item.class));
 
 
         //获取淘口令
-        Map<String,String> params = new HashMap<>();
-        params.put("auctionid",itemDetailVo.getNumId());
-        String content = HttpClientUtils.doPost(ServerUrlConfig.twdAndShortLinkInfoUrl,params);
-        JSONObject jsonObject =  JSON.parseObject(content);
-        model.addAttribute("tklAndLink",JSON.parseObject(jsonObject.get("data").toString(),AlimamaItemLink.class));
+//        Map<String,String> params = new HashMap<>();
+//        params.put("auctionid",itemDetailVo.getNumId());
+//        String content = HttpClientUtils.doPost(serverUrlConfig.getTwdAndShortLinkInfoUrl(),params);
+//        JSONObject jsonObject =  JSON.parseObject(content);
+//        model.addAttribute("tklAndLink",JSON.parseObject(jsonObject.get("data").toString(),AlimamaItemLink.class));
 
 
         return "item_detail";

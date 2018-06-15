@@ -41,6 +41,11 @@ public class ItemDetailVo {
      */
     private String numId;
 
+    /**
+     * 商品类别(B、天猫 C、淘宝)
+     */
+    private String shopType;
+
     public String getTitle() {
         return title;
     }
@@ -95,5 +100,13 @@ public class ItemDetailVo {
 
     public void setNumId(String numId) {
         this.numId = numId;
+    }
+
+    public void setShopType(String shopType) {
+        this.shopType = shopType;
+    }
+
+    public String getShopType() {
+        return shopType;
     }
 }

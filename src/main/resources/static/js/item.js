@@ -47,7 +47,7 @@ $(function(){
             $pullUp = $wrapper.find('.pullup-goods');
         }
         var labelTag = $($pullUp).find('.label');
-        $.ajax(context+"/item_list",{
+        $.ajax(context+"item_list",{
             data: {currentPage: page,pageSize:10,cateEnum:"nine"},
             type: 'post',
             error: function (xhr, type, errorThrown) {
