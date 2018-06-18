@@ -1,6 +1,7 @@
 package com.tooklili.tookitem.service;
 
 import com.tooklili.tookitem.model.Item;
+import com.tooklili.tookitem.model.vo.QueryItemVo;
 import com.tooklili.tookitem.result.PageResult;
 
 /**
@@ -12,9 +13,10 @@ public interface TookItemNineService {
 
     /**
      * 分页查询9块9商品信息
+     * @param queryItemVo      查询条件
      * @param currentPage
      * @param pageSize
      * @return
      */
-    PageResult<Item> findItemNine(Integer currentPage, Integer pageSize);
+    PageResult<Item> findItemNine(QueryItemVo queryItemVo, Integer currentPage, Integer pageSize);
 }

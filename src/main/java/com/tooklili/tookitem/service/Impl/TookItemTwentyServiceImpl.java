@@ -4,6 +4,7 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.tooklili.tookitem.mapper.TookItemTwentyMapper;
 import com.tooklili.tookitem.model.Item;
+import com.tooklili.tookitem.model.vo.QueryItemVo;
 import com.tooklili.tookitem.result.PageResult;
 import com.tooklili.tookitem.service.TookItemTwentyService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,14 +21,19 @@ public class TookItemTwentyServiceImpl implements TookItemTwentyService{
     private TookItemTwentyMapper tookItemTwentyMapper;
 
     @Override
-    public PageResult<Item> findItemTwenty(Integer currentPage, Integer pageSize) {
+    public PageResult<Item> findItemTwenty(QueryItemVo queryItemVo,Integer currentPage, Integer pageSize) {
         PageResult<Item> result = new PageResult<>();
 
         if(currentPage == null) currentPage = 1;
         if(pageSize == null) pageSize = 10;
 
         PageHelper.startPage(currentPage,pageSize);
-        Page<Item> page = (Page<Item>)tookItemTwentyMapper.queryItemTwenty();
+        Page<Item> page = null;
+        if(queryItemVo == null){
+            page = (Page<Item>)tookItemTwentyMapper.queryItemTwenty(null,null);
+        }else{
+            page = (Page<Item>)tookItemTwentyMapper.queryItemTwenty(queryItemVo.getCateId(),queryItemVo.getType() == null ? null : queryItemVo.getType().toString());
+        }
 
         result.setData(page.getResult());
         result.setCurrentPage(page.getPageNum());

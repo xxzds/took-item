@@ -26,7 +26,7 @@ public class TookItemNineServiceTest {
     @Test
     public void findItemNine() {
         try{
-            PageResult<Item> result=  tookItemNineService.findItemNine(1,10);
+            PageResult<Item> result=  tookItemNineService.findItemNine(null,1,10);
             LOGGER.info("items:{}", JSON.toJSONString(result));
         }catch (Exception e){
             LOGGER.error(e.getMessage(),e);

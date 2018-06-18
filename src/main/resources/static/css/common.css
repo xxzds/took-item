@@ -36,7 +36,7 @@ body, button, div, img, input, li, p, span, ul {
 }
 
 .goods-list {
-    margin-top: 50px;
+    margin-top: 86px;
 }
 
 .goods-list, .goods-list2 {
@@ -57,6 +57,7 @@ body, button, div, img, input, li, p, span, ul {
     margin-bottom: .4em;
     margin-left: .15em;
     float: left;
+    background-color: #fff;
 }
 
 .goods-list .goods-item a.img, .goods-list .goods-item-ads a.img {

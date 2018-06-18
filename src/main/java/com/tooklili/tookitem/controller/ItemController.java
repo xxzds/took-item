@@ -4,10 +4,13 @@ import com.alibaba.fastjson.JSON;
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 import com.tooklili.tookitem.config.ServerUrlConfig;
+import com.tooklili.tookitem.mapper.TookAlimamaItemCateMapper;
 import com.tooklili.tookitem.model.Item;
+import com.tooklili.tookitem.model.TookAlimamaItemCate;
 import com.tooklili.tookitem.model.TookHotKeyword;
 import com.tooklili.tookitem.model.enums.CateEnum;
 import com.tooklili.tookitem.model.vo.ItemDetailVo;
+import com.tooklili.tookitem.model.vo.QueryItemVo;
 import com.tooklili.tookitem.result.ListResult;
 import com.tooklili.tookitem.result.PageResult;
 import com.tooklili.tookitem.service.TookItemNineService;
@@ -44,6 +47,9 @@ public class ItemController {
     @Autowired
     private ServerUrlConfig serverUrlConfig;
 
+    @Autowired
+    private TookAlimamaItemCateMapper tookAlimamaItemCateMapper;
+
 
     /**
      * 获取热门关键字
@@ -74,18 +80,28 @@ public class ItemController {
      * @return
      */
     @RequestMapping("/query_item/{cateEnum}")
-    public String queryItem(Model model,@PathVariable CateEnum cateEnum){
+    public String queryItem(Model model,@PathVariable CateEnum cateEnum,QueryItemVo queryItemVo){
         if(cateEnum == null){
             model.addAttribute("error","分类id不能为空");
             return "error";
         }
+
+        //获取商品分类
+        List<TookAlimamaItemCate> tookAlimamaItemCates = tookAlimamaItemCateMapper.getTookAlimamaItemCates();
+        TookAlimamaItemCate tookAlimamaItemCate = new TookAlimamaItemCate();
+        tookAlimamaItemCate.setId(-1);
+        tookAlimamaItemCate.setItemCateName("全部");
+        tookAlimamaItemCates.add(0,tookAlimamaItemCate);
+        model.addAttribute("itemCates",tookAlimamaItemCates);
+
+
         PageResult<Item> items = new PageResult<>();
         switch (cateEnum){
             case nine:
-                items = tookItemNineService.findItemNine(1,10);
+                items = tookItemNineService.findItemNine(queryItemVo,1,10);
                 break;
             case twenty:
-                items = tookItemTwentyService.findItemTwenty(1,10);
+                items = tookItemTwentyService.findItemTwenty(queryItemVo,1,10);
                 break;
         }
         model.addAttribute("items",items.getData());
@@ -102,15 +118,20 @@ public class ItemController {
      * @return
      */
     @RequestMapping("/item_list")
-    public String itemList(Model model,Integer currentPage, Integer pageSize,CateEnum cateEnum){
+    public String itemList(Model model,Integer currentPage, Integer pageSize,CateEnum cateEnum,QueryItemVo queryItemVo){
         PageResult<Item> items =new PageResult<>();
+
+        if(cateEnum == null){
+            model.addAttribute("error","分类id不能为空");
+            return "error";
+        }
 
         switch (cateEnum){
             case nine:
-                items = tookItemNineService.findItemNine(currentPage,pageSize);
+                items = tookItemNineService.findItemNine(queryItemVo,currentPage,pageSize);
                 break;
             case twenty:
-                items = tookItemTwentyService.findItemTwenty(currentPage,pageSize);
+                items = tookItemTwentyService.findItemTwenty(queryItemVo,currentPage,pageSize);
                 break;
         }
         if(items.getData().size()==0){
@@ -145,6 +166,9 @@ public class ItemController {
 //        String content = HttpClientUtils.doPost(serverUrlConfig.getTwdAndShortLinkInfoUrl(),params);
 //        JSONObject jsonObject =  JSON.parseObject(content);
 //        model.addAttribute("tklAndLink",JSON.parseObject(jsonObject.get("data").toString(),AlimamaItemLink.class));
+
+        //获取淘口令接口
+        model.addAttribute("twdAndShortLinkInfoUrl",serverUrlConfig.getTwdAndShortLinkInfoUrl());
 
 
         return "item_detail";

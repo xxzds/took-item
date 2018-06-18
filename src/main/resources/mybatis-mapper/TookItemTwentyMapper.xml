@@ -29,6 +29,24 @@
       select
      <include refid="Base_Column_List" />
      from took_item_twenty
-     order by LENGTH (volume) desc ,volume desc
+     <where>
+       <if test="cateId != null">
+         and cate_id =#{cateId}
+       </if>
+     </where>
+     <if test="itemQueryType == null || itemQueryType == '' || itemQueryType == 'moren'">  <!--默认排序-->
+       order by add_time desc
+     </if>
+     <if test="itemQueryType == 'ishot'">   <!--销量最高-->
+       order by LENGTH (volume) desc ,volume desc
+     </if>
+
+     <if test="itemQueryType == 'ishit'">   <!--优惠幅度-->
+       order by LENGTH (quan) desc ,quan desc
+     </if>
+
+     <if test="itemQueryType == 'isfee'">   <!--价格最低-->
+       order by LENGTH (coupon_price) asc ,coupon_price asc
+     </if>
    </select>
 </mapper>

@@ -8,23 +8,39 @@
     <meta name="viewport"
           content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
     <title>[[${item.title}]]_促优网</title>
-    <meta name="Keywords" content=",促优网"/>
-    <meta name="Description" content=""/>
-    <meta itemprop="image"
-          content="https://img.alicdn.com/imgextra/i2/3216583513/TB2i11bXEUIL1JjSZFrXXb3xFXa_!!3216583513.jpg_50x50.jpg"/>
+    <meta content="促优网、返利、淘宝客、优惠券" name="keywords">
+    <meta content="促优网专注独家折扣，每天精选上千款超值商品，天天更新，件件超值。商城优品超值买，优质大牌低价购，相信品牌的品质，购物就来促优网！" name="description">
+    <link rel="shortcut icon" type="image/ico" th:href="@{/images/favicon.ico}">
     <script src="http://cmsstatic.dataoke.com/other/jquery/1.12.4/jquery.min.js?v=201805301044"></script>
     <link href="http://cmsstatic.dataoke.com//web/css/wap_common.css?v=201805301044" rel="stylesheet">
     <link href="http://cmsstatic.dataoke.com//web/css/wapshow.css?v=201805301044" rel="stylesheet"/>
+    <style>
+        .main-title .main-back1 {
+            position: absolute;
+            left: 10px;
+            height: 28px;
+            width: 28px;
+            display: block;
+            background: url(./images/cms-img.png?v=201842800541) -32px 0 no-repeat;
+            background-size: 287px 800px;
+            float: left;
+        }
+        .main-title .main-back1, .main-title .main-more {
+            background-color: rgba(102,102,102,.7);
+            border-radius: 100%;
+        }
+        .main-back1 {
+            background-position: -30px 0!important;
+        }
+    </style>
     <script>
         //统计
         var coutData = [];
     </script>
-    <!-- 皮肤 S-->
-    <link href="http://cmsstatic.dataoke.com//web/css/cms_skin/purple.css?v=201805301044" rel="stylesheet"><!-- 皮肤 E-->
 </head>
-<body data-appid="627172" data-in="1">
+<body>
 <div class="main-title clearfix">
-    <a href="javascript:void(0)" class="main-back"></a>
+    <a href="javascript:void(0)" class="main-back1"></a>
 </div>
 <!-- 主界面具体展示内容 -->
 <script src="http://cmsstatic.dataoke.com//web/js/clipboard.min.js?v=201805301044"></script>
@@ -141,7 +157,7 @@
 
 
 <div class="detail-wrapper img">
-    <a href="javascript" class="tb_app">
+    <div class="tb_app">
         <div class="swiper-container">
             <div class="swiper-wrapper img">
                 <div data-gid="9647740" class="swiper-slide"
@@ -153,7 +169,7 @@
         <div class="title-wrapper clearfix">
             <span class="tmall">[[${item.title}]]</span>
         </div>
-    </a>
+    </div>
 
     <div class="goods-jq clearfix">
         <div class="goods-price fl"><b><i>￥</i>[[${item.couponPrice}]]</b>券后价</div>
@@ -188,9 +204,9 @@
         <p><i></i>精品推荐<b></b></p>
     </div>
     <div class="ads-list" data-page="0">
-        <div class="goods-item" th:each="item:${items}">
+        <div class="goods-item" th:each="item:${items}" style="background-color: #fff">
             <a data-transition="slide" th:href="@{'item_detail'(title=${item.title},picUrl=${item.picUrl},price=${item.price}
-        ,couponPrice=${item.couponPrice},quan=${item.quan},volume=${item.volume},numId=${item.numIid})}" class="img ui-link">
+        ,couponPrice=${item.couponPrice},quan=${item.quan},volume=${item.volume},numId=${item.numIid},shopType=${item.shopType})}" class="img ui-link">
                 <span class="coupon-wrapper  theme-bg-color-1">券 <i>￥</i><b>5</b></span>
                 <img  th:attr="src=@{${item.picUrl}+'_310x310.jpg'}">
             </a>
@@ -234,13 +250,23 @@
                 </a>
             </li>
 
+            <li class="col-sm-4 wx">
+                <a class="buy-btn buy-btn-secondary" weixin="">
+                    浏览器打开
+                </a>
+            </li>
 
-            <li class="col-sm-4">
-                <a href="javascript:;" class="buy-btn buy-btn-secondary" id="tbk">淘口令</a>
+            <li class="col-sm-4 wx">
+                <a href="javascript:;" class="buy-btn buy-btn-primary" th:onclick="'javascript:getTkl(\''+${item.numId}+'\',2)'">口令购买</a>
             </li>
 
 
-            <li class="col-sm-4">
+            <li class="col-sm-4 llx">
+                <a href="javascript:;" class="buy-btn buy-btn-secondary" th:onclick="'javascript:getTkl(\''+${item.numId}+'\',2)'">淘口令</a>
+            </li>
+
+
+            <li class="col-sm-4 llx">
                 <a href="javascript:;" id="getGoodsLink" class="buy-btn buy-btn-primary tb_app">领券购买 </a>
             </li>
 
@@ -253,12 +279,16 @@
 <!-- 新版底部样式e -->
 <script type="text/javascript">
 
-    var ua = navigator.userAgent.toLowerCase();//获取判断用的对象
-    if (ua.match(/WeiBo/i) == "weibo" || ua.match(/Weibo/i) == "weibo") {
-        $("#getGoodsLink").attr('weixin', '').removeAttr('href').removeClass('tb_app');
+    var a = navigator.userAgent;  ////获取判断用的对象
+    console.log(a);
+    if (a.indexOf('wechat') > -1 || a.indexOf("MicroMessenger") > -1) {  //微信
+          $('.llx').remove();
+    } else {
+          $('.wx').remove();
     }
 
 
+    //分享点击事件
     $(".buy-wrapper-new ul li:eq(0),.buy-wrapper-new-bg").click(function (event) {
         /* Act on the event */
 
@@ -356,9 +386,6 @@
     $('.pop-mzsm .close_btn').on('click', function () {
         $('.pop-up').hide();
     });
-    $('.pop-mzsm .fk_atonce').on('click', function () {
-        window.location.href = "/index.php?r=index/feedback&id=9647740";
-    })
 </script>
 <section class="more-couppon-goods">
     <!--<a href="http://www.tooklili.com/index.php#more-goods">返回首页</a>-->
@@ -650,9 +677,9 @@
     }
 
     //淘口令
-    $('#tbk').click(function(){
-        getTkl([[${item.numId}]],2);
-    });
+    // $('#tbk').click(function(){
+    //     getTkl([[${item.numId}]],2);
+    // });
 
     //通过口令分享
     $('#klfx').click(function () {
@@ -693,7 +720,7 @@
 
         $.ajax({
             type: "POST",
-            url: "http://www.tooklili.com/tookApp/getTwdAndShortLinkInfo",
+            url: [[${twdAndShortLinkInfoUrl}]],
             data: {
                 auctionid: numIid,
             },
@@ -721,7 +748,7 @@
                 content=[[${item.title}]];
                 content+="\n【在售价】"+[[${item.price}]]+"元"
                 content+="\n【券后价】"+[[${item.couponPrice}]]+"元";
-                content+="\n【下单链接】"+ (data.customCouponShortLinkUrl || data.shortLinkUrl);
+                content+="\n【下单链接】"+ (data.customCouponShortLinkUrl || data.customShortLinkUrl);
                 content+="\n-----------------";
                 content+="\n复制这条信息，"+(data.couponLinkTaoToken || data.taoToken)+" ，打开【手机淘宝】即可查看";
                 $('#codeText').html(content);
@@ -753,6 +780,12 @@
 
 
 
+    //后退
+    $('.main-back1').off('click').on('click',function(){
+        if(history.length>0){
+            history.go(-1);
+        }
+    })
 </script>
 </body>
 </html>

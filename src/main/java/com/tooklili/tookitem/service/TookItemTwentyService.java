@@ -1,6 +1,7 @@
 package com.tooklili.tookitem.service;
 
 import com.tooklili.tookitem.model.Item;
+import com.tooklili.tookitem.model.vo.QueryItemVo;
 import com.tooklili.tookitem.result.PageResult;
 
 /**
@@ -16,5 +17,5 @@ public interface TookItemTwentyService {
      * @param pageSize
      * @return
      */
-    PageResult<Item> findItemTwenty(Integer currentPage, Integer pageSize);
+    PageResult<Item> findItemTwenty(QueryItemVo queryItemVo,Integer currentPage, Integer pageSize);
 }

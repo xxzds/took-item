@@ -28,7 +28,7 @@ public class TookItemTwentyMapperTest {
     @Test
     public void queryItemTwenty() {
         try{
-            List<Item> items = tookItemTwentyMapper.queryItemTwenty();
+            List<Item> items = tookItemTwentyMapper.queryItemTwenty(null,null);
             LOGGER.info("item:{}", JSON.toJSONString(items));
         }catch (Exception e){
             LOGGER.error(e.getMessage(),e);

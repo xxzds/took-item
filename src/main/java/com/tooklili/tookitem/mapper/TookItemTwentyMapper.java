@@ -2,6 +2,7 @@ package com.tooklili.tookitem.mapper;
 
 import com.tooklili.tookitem.model.Item;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -17,6 +18,6 @@ public interface TookItemTwentyMapper {
      * 查询20块商品
      * @return
      */
-    List<Item> queryItemTwenty();
+    List<Item> queryItemTwenty(@Param("cateId") Integer cateId, @Param("itemQueryType") String itemQueryType);
 
 }

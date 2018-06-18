@@ -7,7 +7,11 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no">
-    <title></title>
+    <title>[[${title}]]-促优网-专注独家正品折扣，返利-上促优，便宜购！</title>
+
+    <meta content="促优网、返利、淘宝客、优惠券" name="keywords">
+    <meta content="促优网专注独家折扣，每天精选上千款超值商品，天天更新，件件超值。商城优品超值买，优质大牌低价购，相信品牌的品质，购物就来促优网！" name="description">
+    <link rel="shortcut icon" type="image/ico" th:href="@{/images/favicon.ico}">
 
     <link rel="stylesheet" type="text/css" href="//lib.baomitu.com/amazeui/2.7.2/css/amazeui.min.css"/>
     <link rel="stylesheet" type="text/css" href="//fqapps.oss-cn-hangzhou.aliyuncs.com/style.css" />
@@ -16,6 +20,7 @@
     <!--[if (gte IE 9)|!(IE)]><!-->
     <script type="text/javascript" src="//lib.baomitu.com/amazeui/2.7.2/js/amazeui.min.js"></script>
     <!--<![endif]-->
+    <script th:src="@{/js/plugin/lazyload.js(v=201805271740)}"></script>
 <body>
 <div class="am-modal am-modal-alert" tabindex="-1" id="fq_alert">
     <div class="am-modal-dialog">
@@ -62,10 +67,10 @@
     .am-gotop-fixed .am-gotop-icon{line-height:40px}
     .tag_list{border-bottom:1px solid #eee;background:white;}
     .fq-sort{color:#4C4C4C}
-    .fq-sort-active{position:relative;color:#5e8eff}
-    .fq-sort-active::after{position:absolute;bottom:0;left:5%;width:90%;height:3px;background:#5e8eff;content:""}
+    .fq-sort-active{position:relative;color:#fe4d3d}
+    .fq-sort-active::after{position:absolute;bottom:0;left:5%;width:90%;height:3px;background:#fe4d3d;content:""}
     .fq-bese-choose{display:inline-flex;padding-top:1px;width:70px;height:20px;border:1px dashed #aa6dff;line-height:20px;align-items:center;justify-content:center}
-    .fq-bese-choose span{background-image:-webkit-gradient(linear,0 0,0 bottom,from(#aa6dff),to(#5e8eff));color:#aa6dff;font-weight:bolder;-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+    .fq-bese-choose span{background-image:-webkit-gradient(linear,0 0,0 bottom,from(#fe4a65),to(#fe4a65));color:#aa6dff;font-weight:bolder;-webkit-background-clip:text;-webkit-text-fill-color:transparent}
     .line-clamp{display:-webkit-box;overflow:hidden;text-overflow:ellipsis;-webkit-line-clamp:2;-webkit-box-orient:vertical}
 
     .index-goods-lists{
@@ -462,11 +467,11 @@
                     <a th:href="@{'/item_detail'(title=${item.title},picUrl=${item.picUrl},price=${item.price}
         ,couponPrice=${item.couponPrice},quan=${item.quan},volume=${item.volume},numId=${item.numIid},shopType=${item.shopType})}">
                         <div class="img-box">
-                            <img class="fq-goods-img fq-left" th:src="@{|${item.picUrl}_310x310.jpg|}" />
+                            <img class="fq-goods-img fq-left lazy" src="http://cmsstatic.dataoke.com//web/images/rolling.gif?v=201805241847" th:data-original="@{|${item.picUrl}_310x310.jpg|}" />
                         </div>
                         <div class="fq-goods-message tobuy"  data-id="">
                             <div class="fq-goods-title">
-                                <img th:src="@{/images/ic_celect.png}" />[[${item.title}]]
+                                <img  th:src="@{/images/ic_celect.png}" />[[${item.title}]]
                             </div>
                             <div class="fq-goods-money">
                                 <div class="fq-goods-free">
@@ -510,11 +515,43 @@
     </a>
 </div>
 
-
+<script th:src="@{/js/getUrlParam.js}"></script>
 <script th:inline="javascript">
     /*<![CDATA[*/
     var context = /*[[@{/}]]*/;
     /*]]>*/
+
+    var requestStart = 2;  //ajax请求的当前页
+    // 从sessionStorage获取数据
+    if(UrlParm.hasParm("status") && UrlParm.hasParm("hasHyq")){  //url中无这两个参数，则无缓存
+
+        var state = history.state;
+        if(state != null && state.status !=null && state.title != null && state.hasHyq !=null){  //history 是否存入了条件，有条件，有缓存
+            var oldStatus = state.status;
+            var oldTitle = state.title;
+            var oldHasHyq = state.hasHyq;
+
+            var newStatus = UrlParm.parm("status");
+            var newTitle = UrlParm.parm("title");
+            var newHasHyq = UrlParm.parm("hasHyq") =='false' ? false:true;
+
+            if(oldStatus == newStatus && oldTitle == newTitle && oldHasHyq == newHasHyq){   // 条件相等，从缓存中取
+                var data = sessionStorage.getItem('super-item-list');
+                if(data !=null && data != ''){
+                    $('.index-goods-lists').html(data);
+                }
+
+                //分页信息
+                if(state.page != null){
+                    requestStart = state.page;
+                }
+            }
+        }
+    }
+    // 从sessionStorage删除保存的数据
+    sessionStorage.removeItem('super-item-list');
+
+
 
     //标识选中的条件
     var status =[[${status}]];
@@ -582,7 +619,6 @@
     });
 
     //下拉获取更多
-    var requestStart = 2;
     $('#items_list').dropload({
         scrollArea : window,
         loadDownFn : function(me){
@@ -627,7 +663,7 @@
                         result += '<a href="'+a_link+'">';
 
                         result += '<div class="img-box">';
-                        result += '<img class="fq-goods-img  am-fl" src="'+picUrl+'"/>';
+                        result += '<img class="fq-goods-img  am-fl lazy" src="http://cmsstatic.dataoke.com//web/images/rolling.gif?v=201805241847" data-original="'+picUrl+'_310x310.jpg"/>';
                         result += '</div>';
 
                         result += '<div class="fq-goods-message">';
@@ -651,6 +687,7 @@
                         result += '</a></div></li>';
 
                         $('.index-goods-lists').append(result);
+                        $("img.lazy").lazyload();
                         result = '';
 
                     }
@@ -660,6 +697,16 @@
                         // 每次数据加载完，必须重置
                         me.resetload();
                     },1000);
+
+                    //将参数写入会话历史,改变url地址
+                    window.history.replaceState(
+                        {page:requestStart,title:$.trim($('#itemurl').val()),status:status,hasHyq:hasHyq},
+                        document.title,
+                        window.location.pathname+"?title="+encodeURI($.trim($('#itemurl').val()))+"&status="+status+"&hasHyq="+hasHyq
+                    )
+
+                    //保存list数据到sessionStorage
+                    sessionStorage.setItem('super-item-list',  $('.index-goods-lists').html());
                 },
                 error: function(xhr, type){
                     // 即使加载出错，也得重置
@@ -684,4 +731,6 @@
         hasHyq =$('#yhq').prop('checked');
         window.location.href=context+'super_search?title='+encodeURI($.trim($('#itemurl').val()))+"&status="+status+"&hasHyq="+hasHyq;
     });
+
+    $("img.lazy").lazyload();
 </script>

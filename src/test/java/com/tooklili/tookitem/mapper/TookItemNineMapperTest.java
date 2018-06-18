@@ -2,6 +2,7 @@ package com.tooklili.tookitem.mapper;
 
 import com.alibaba.fastjson.JSON;
 import com.tooklili.tookitem.model.Item;
+import com.tooklili.tookitem.model.vo.QueryItemVo;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -27,7 +28,7 @@ public class TookItemNineMapperTest {
     @Test
     public void queryItemNine() {
         try{
-            List<Item> items = tookItemNineMapper.queryItemNine();
+            List<Item> items = tookItemNineMapper.queryItemNine(null, QueryItemVo.ItemQueryType.isfee.toString());
             LOGGER.info("item:{}", JSON.toJSONString(items));
         }catch (Exception e){
             LOGGER.error(e.getMessage(),e);
