@@ -29,8 +29,7 @@ if(UrlParm.hasParm("cateId") || UrlParm.hasParm("type")){
     }
 }
 // 从sessionStorage删除保存的数据
-sessionStorage.removeItem('item-list');
-
+// sessionStorage.removeItem('item-list');
 
 
 var isFinish = false;

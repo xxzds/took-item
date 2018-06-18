@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
     <div class="goods-item" th:each="item:${items}">
-        <a data-gid="" href="" class="img" th:href="@{'/item_detail'(title=${item.title},picUrl=${item.picUrl},price=${item.price}
+        <a class="img" th:href="@{'/item_detail'(title=${item.title},picUrl=${item.picUrl},price=${item.price}
         ,couponPrice=${item.couponPrice},quan=${item.quan},volume=${item.volume},numId=${item.numIid},shopType=${item.shopType})}">
             <span class="coupon-wrapper  theme-bg-color-1" th:if="${item.quan} ne 0">券 <i>￥</i><b>[[${item.quan}]]</b></span>
             <!--<span class="today-wrapper" th:if="${item.quan} ne 0"><b>NEW</b></span>-->
             <img class="lazy" src="http://cmsstatic.dataoke.com//web/images/rolling.gif?v=201805241847" th:data-original="|${item.picUrl}_310x310.jpg|" alt="">
         </a>
-        <a data-gid="9042268" href="/index.php?r=p/d&amp;id=9042268&amp;u=634209" class="title">
+        <a class="title" th:href="@{'/item_detail'(title=${item.title},picUrl=${item.picUrl},price=${item.price}
+        ,couponPrice=${item.couponPrice},quan=${item.quan},volume=${item.volume},numId=${item.numIid},shopType=${item.shopType})}">
             <div class="text">[[${item.title}]]</div>
         </a>
         <div class="price-wrapper">
