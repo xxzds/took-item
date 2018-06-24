@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>[[${cateName}]]-促优网-专注独家正品折扣，返利-上促优，便宜购！</title>
+    <meta content="促优网、返利、淘宝客、优惠券" name="keywords">
+    <meta content="促优网专注独家折扣，每天精选上千款超值商品，天天更新，件件超值。商城优品超值买，优质大牌低价购，相信品牌的品质，购物就来促优网！" name="description">
+    <link th:href="@{/css/common.css(v=201806161)}" rel="stylesheet" type="text/css">
+    <style>
+        .goods-list {
+            margin-top: 0px;
+        }
+    </style>
+    <script th:src="@{/js/plugin/jquery.min.js(v=201805271740)}"></script>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        var context = /*[[@{/}]]*/;
+        /*]]>*/
+
+        var cateName = [[${cateName}]];
+    </script>
+</head>
+<body>
+<!--content-->
+<div class="goods-list" data-page="2">
+
+</div>
+
+<div class="pullup-goods">
+    <div class="label">商品加载中...</div>
+</div>
+
+<script th:src="@{/js/plugin/lazyload.js(v=201805271740)}"></script>
+<script th:src="@{/js/getUrlParam.js}"></script>
+<script>
+
+
+
+
+
+    var page= 1;
+    var isFinish = false;
+    var isLoading = false;
+    var needLoadMore = false;
+
+
+    var maxScrollY = 0;
+    var windowHeight = 0;
+    $(function(){
+        if(UrlParm.hasParm("page")){
+            //添加缓存信息
+            var data = sessionStorage.getItem('item-select-list');
+            if(data !=null && data != ''){
+                $('.goods-list').html(data);
+                $("img.lazy").lazyload();
+            }
+            page =UrlParm.parm("page");
+        }else{
+            getData(page);
+        }
+
+        maxScrollY = $(document).height();
+        windowHeight = $(window).height();
+        $(window).on('resize', function () {
+            windowHeight = $(window).height();
+        });
+
+        $(window).scroll(function (e) {
+            if (isFinish || isLoading) {
+                return;
+            }
+            var y = $(document).scrollTop();
+            maxScrollY = $(document).height();
+            windowHeight = $(window).height();
+            if (Math.abs(maxScrollY - windowHeight - y) > 100) {
+                return;
+            }
+            getData(page);
+        });
+
+
+        /**
+         * 异步请求数据
+         * @param toPage
+         */
+        function getData(toPage) {
+            if (isFinish) {
+                return;
+            }
+            isLoading = true;
+            var cateId = $('#tmpfqcid').val();
+            var type = $('#tmptpye').val();
+            $.ajax(context+"item/select/list",{
+                data: {currentPage: toPage,pageSize:10,cateName:cateName},
+                type: 'post',
+                error: function (xhr, type, errorThrown) {
+                    getData($wrapper, data, direction);
+                },
+                success: function (result, status, xhr) {
+                    needLoadMore  = false;
+                    if(result==null || result ==""){
+                        isLoading = false;
+                        $('.pullup-goods .label').html('没有更多商品啦');
+                        isFinish = true;
+                    }else{
+                        $('.goods-list').append(result);
+                        $("img.lazy").lazyload();
+                        maxScrollY = $(document).height();
+                        isLoading = false;
+                        page++;
+                        $('.goods-list').attr('data-page',page);
+
+                        //将参数写入会话历史,改变url地址
+                        window.history.replaceState(
+                            {},
+                            document.title,
+                            window.location.pathname+"?cateName="+cateName+"&page="+page
+                        )
+
+                        //保存list数据到sessionStorage
+                        sessionStorage.setItem('item-select-list',  $('.goods-list').html());
+
+                    }
+                }
+            });
+        }
+    });
+    $("img.lazy").lazyload();
+</script>
+</body>
+</html>
