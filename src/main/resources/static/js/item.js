@@ -5,6 +5,16 @@
 //     var page = 2;
 // }
 
+// 设置图片宽高
+$(function() {
+    var width=0;
+    width=$(".lazy").width();
+    $(".lazy").height(width);
+    window.onresize=function() {
+        width=$(".lazy").width();
+        $(".lazy").height(width);
+    }
+});
 
 //查看url中是否有cateId和type这两个参数
 if(UrlParm.hasParm("cateId")){
@@ -92,6 +102,10 @@ $(function(){
                     isLoading = false;
                     page++;
                     $('.goods-list').attr('data-page',page);
+
+                    //图片的宽高相同
+                    var width=$(".lazy").width();
+                    $(".lazy").height(width);
 
                     //将参数写入会话历史,改变url地址
                     window.history.replaceState(

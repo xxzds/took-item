@@ -6,17 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <meta http-equiv="Cache-Control" content="max-age=7200" />
 
-    <title th:with="title=${cate eq 'nine'} ? '9块9':'20元'">[[${title}]]-促优网-专注独家正品折扣，返利-上促优，便宜购！</title>
+    <title>母婴主题-促优网-专注独家正品折扣，返利-上促优，便宜购！</title>
     <meta content="促优网、返利、淘宝客、优惠券" name="keywords">
     <meta content="促优网专注独家折扣，每天精选上千款超值商品，天天更新，件件超值。商城优品超值买，优质大牌低价购，相信品牌的品质，购物就来促优网！" name="description">
-    <link th:href="@{/css/common.css(v=201806161)}" rel="stylesheet" type="text/css">
+    <link th:href="@{/css/common.css(v=20180714)}" rel="stylesheet" type="text/css">
     <script th:src="@{/js/plugin/jquery.min.js(v=201805271740)}"></script>
     <script th:inline="javascript">
         /*<![CDATA[*/
         var context = /*[[@{/}]]*/;
         /*]]>*/
-
-        var cate = [[${cate}]];
     </script>
 </head>
 <body>
@@ -24,23 +22,13 @@
 <!--head-->
 <div id="Fill_006" onclick="sq_xl()" style="width: 100%; display: none;"></div>
 <div class="main-title clearfix theme-bg-color-1">
-    <div class="menu-detail" th:switch="${cate}">
-        <span th:case="'nine'">9.9包邮</span>
-        <span th:case="'twenty'">20包邮</span>
-        <span th:case="*">[[${cate}]]</span>
-    </div>
+    <div class="menu-detail"><span>母婴主题</span></div>
 </div>
-
 <table>
     <tbody>
     <tr>
-        <td onclick="zksq_xl(1)">
-            <span class="cate" id="dc_xl_001">专题分类</span>
-            <img id="cx_xl_img1" th:src="@{/images/spike_030.png}" width="12" height="7" class="nbtbk-arrow">
-            <div class="Fill_004"></div>
-        </td>
         <td onclick="zksq_xl(2)">
-            <span class="cate" id="dc_xl_002">默认排序</span>
+            <span class="cate" id="dc_xl_002">专题分类</span>
             <img id="cx_xl_img2" th:src="@{/images/spike_030.png}" width="12" height="7" class="nbtbk-arrow">
             <!--<div class="Fill_004"></div>-->
         </td>
@@ -122,7 +110,7 @@
         text-align: center;
         color: #5F5F5F;
         padding-top: 12px;
-        padding-right: 42%;
+        padding-right: 32%;
         padding-left: 29%;
     }
 
@@ -194,19 +182,14 @@
         margin-left: 5px;
     }
 </style>
-<div id="xl_001" style="width: 100%; height: 0px;">
-    <input value="" id="tmpfqcid" type="hidden">
-    <ul style="width:100%" >
-        <li class="xl_div_001" th:each="itemCate:${itemCates}" th:attr="data-id=${itemCate.id}">[[${itemCate.itemCateName}]]</li>
-    </ul>
-</div>
-
 <div id="xl_002" style="width: 100%; height: 0px;">
-    <input value="" id="tmptpye" type="hidden">
-    <div class="xl_div_002" data-id="moren" id="top_moren">默认排序</div>
-    <div class="xl_div_002" data-id="ishot" id="top_ishot">销量最高</div>
-    <div class="xl_div_002" data-id="ishit" id="top_ishit">优惠幅度</div>
-    <div class="xl_div_002" data-id="isfee" id="top_isfee">价格最低</div>
+    <input value="" id="materialId" type="hidden">
+    <div class="xl_div_002" data-id="4040">母婴_备孕</div>
+    <div class="xl_div_002" data-id="4041">母婴_0至6个月</div>
+    <div class="xl_div_002" data-id="4044">母婴_4至6岁</div>
+    <div class="xl_div_002" data-id="4042">母婴_7至12个月</div>
+    <div class="xl_div_002" data-id="4043">母婴_1至3岁</div>
+    <div class="xl_div_002" data-id="4045">母婴_7至12岁</div>
 </div>
 
 <script>
@@ -258,24 +241,7 @@
 </script>
 
 <!--content-->
-<div class="goods-list" data-page="2">
-    <div class="goods-item" th:each="item:${items}">
-        <a class="img" th:href="@{'/item_detail'(title=${item.title},picUrl=${item.picUrl},price=${item.price}
-        ,couponPrice=${item.couponPrice},quan=${item.quan},volume=${item.volume},numId=${item.numIid},shopType=${item.shopType})}">
-
-            <span class="coupon-wrapper  theme-bg-color-1" th:if="${item.quan} ne 0">券 <i>￥</i><b>[[${item.quan}]]</b></span>
-            <!--<span class="today-wrapper" th:if="${item.quan} ne 0"><b>NEW</b></span>-->
-            <img class="lazy" src="http://cmsstatic.dataoke.com//web/images/rolling.gif?v=201805241847" th:data-original="|${item.picUrl}_310x310.jpg|" alt="">
-        </a>
-        <a  class="title" th:href="@{'/item_detail'(title=${item.title},picUrl=${item.picUrl},price=${item.price}
-        ,couponPrice=${item.couponPrice},quan=${item.quan},volume=${item.volume},numId=${item.numIid},shopType=${item.shopType})}">
-            <div class="text">[[${item.title}]]</div>
-        </a>
-        <div class="price-wrapper">
-            <span class="price">￥<span>[[${item.couponPrice}]]</span></span><span class="price_yj" th:if="${item.quan} ne 0">￥[[${item.price}]]</span>
-            <div class="sold-wrapper"><span class="text">销量</span><span class="sold-num">[[${item.volume}]]</span></div>
-        </div>
-    </div>
+<div class="goods-list">
 
 </div>
 
@@ -285,11 +251,125 @@
 
 <div class="toTop">&#xe6a4;</div>
 
-<div th:replace="template::footer"></div>
+<div th:include="template::footer"></div>
 
 <script th:src="@{/js/plugin/lazyload.js(v=201805271740)}"></script>
 <script th:src="@{/js/getUrlParam.js}"></script>
-<script th:src="@{/js/item.js(v=2018061630)}"></script>
+<script th:inline="javascript">
+   $(function(){
 
+       //设置图片宽高相等
+       var width=0;
+       width=$(".lazy").width();
+       $(".lazy").height(width);
+       window.onresize=function() {
+           width=$(".lazy").width();
+           $(".lazy").height(width);
+       }
+
+       var page= 1;
+       var isFinish = false;
+       var isLoading = false;
+       var needLoadMore = false;
+
+
+       //查看url中是否还有materialId参数
+       if(UrlParm.hasParm("materialId")){
+           var data = sessionStorage.getItem('meternal_coupon_item_list');
+           if(data !=null && data != ''){
+               $('.goods-list').html(data);
+               $("img.lazy").lazyload();
+           }
+           //分页信息
+           if(history.state != null &&  history.state.page != null){
+               page = history.state.page;
+           }
+           //分类名称
+           $('#dc_xl_002').html(history.state.materialName);
+           //物料id
+           $('#materialId').val(UrlParm.parm("materialId"));
+       }else{
+           getData(page);
+       }
+
+       $(window).scroll(function (e) {
+           if (isFinish || isLoading) {
+               return;
+           }
+           var y = $(document).scrollTop();
+           maxScrollY = $(document).height();
+           windowHeight = $(window).height();
+           if (Math.abs(maxScrollY - windowHeight - y) > 100) {
+               return;
+           }
+           getData(page);
+       });
+
+       /**
+        * 异步请求数据
+        * @param toPage
+        */
+       function getData(toPage) {
+           if (isFinish) {
+               return;
+           }
+           isLoading = true;
+           var materialId = $('#materialId').val();
+           if(materialId == null || materialId == ''){
+               materialId = $('.xl_div_002').attr("data-id");
+           }
+           $.ajax(context+"get_items_materialId",{
+               data: {currentPage: toPage,pageSize:10,materialId:materialId},
+               type: 'post',
+               error: function (xhr, type, errorThrown) {
+                   alert("网络异常")
+               },
+               success: function (result, status, xhr) {
+                   needLoadMore  = false;
+                   if(result==null || result ==""){
+                       isLoading = false;
+                       $('.pullup-goods .label').html('没有更多商品啦');
+                       isFinish = true;
+                   }else{
+                       $('.goods-list').append(result);
+                       $("img.lazy").lazyload();
+                       maxScrollY = $(document).height();
+                       isLoading = false;
+                       page++;
+                       $('.goods-list').attr('data-page',page);
+
+                       //图片的宽高相同
+                       var width=$(".lazy").width();
+                       $(".lazy").height(width);
+
+                       //将参数写入会话历史,改变url地址
+                       window.history.replaceState(
+                           {materialName:$('#dc_xl_002').html() ,materialId:materialId,page:page},
+                           document.title,
+                           window.location.pathname+"?materialId="+materialId
+                       )
+
+                       //保存list数据到sessionStorage
+                       sessionStorage.setItem('meternal_coupon_item_list',  $('.goods-list').html());
+
+                   }
+               }
+           });
+       }
+
+       //选择条件
+       $(".xl_div_002").off("click").on("click",function(){
+           $(".goods-list").html('');
+           var fqcid =  $(this).attr("data-id");
+           $('#materialId').val(fqcid);
+           var fqtxt =  $(this).html();
+           $('#dc_xl_002').html(fqtxt);
+           $('#xl_002').css("height","0px");
+           sq_xl();
+           page =1;
+           getData(page);
+       });
+   })
+</script>
 </body>
 </html>

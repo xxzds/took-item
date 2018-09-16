@@ -43,6 +43,7 @@
     </div>
 </div>
 
+<link rel="stylesheet" type="text/css" th:href="@{/css/dropload.css}">
 <script type="text/javascript" th:src="@{/js/plugin/dropload.min.js}"></script>
 <link rel="stylesheet" type="text/css" href="//at.alicdn.com/t/font_0cg36os498fzjjor.css">
 <link rel="stylesheet" type="text/css" href="//at.alicdn.com/t/font_ongtxs8ybpjve7b9.css">
@@ -73,6 +74,10 @@
     .fq-bese-choose span{background-image:-webkit-gradient(linear,0 0,0 bottom,from(#fe4a65),to(#fe4a65));color:#aa6dff;font-weight:bolder;-webkit-background-clip:text;-webkit-text-fill-color:transparent}
     .line-clamp{display:-webkit-box;overflow:hidden;text-overflow:ellipsis;-webkit-line-clamp:2;-webkit-box-orient:vertical}
 
+    /*下拉，默认的加载信息隐藏*/
+    .dropload-down{
+        display: none;
+    }
     .index-goods-lists{
         display: flex;
         flex-wrap: wrap;
@@ -465,7 +470,7 @@
             <li th:each="item:${items}">
                 <div class="goods-lists-goods">
                     <a th:href="@{'/item_detail'(title=${item.title},picUrl=${item.picUrl},price=${item.price}
-        ,couponPrice=${item.couponPrice},quan=${item.quan},volume=${item.volume},numId=${item.numIid},shopType=${item.shopType})}">
+        ,couponPrice=${item.couponPrice},quan=${item.quan},volume=${item.volume},numId=${item.numIid},shopType=${item.shopType},clickUrl=${item.clickUrl},quanUrl=${item.quanUrl},userFlag=${userFlag})}">
                         <div class="img-box">
                             <img class="fq-goods-img fq-left lazy" src="http://cmsstatic.dataoke.com//web/images/rolling.gif?v=201805241847" th:data-original="@{|${item.picUrl}_310x310.jpg|}" />
                         </div>
@@ -520,6 +525,17 @@
     /*<![CDATA[*/
     var context = /*[[@{/}]]*/;
     /*]]>*/
+
+    // 设置图片宽高
+    $(function() {
+        var width=0;
+        width=$(".lazy").width();
+        $(".lazy").height(width);
+        window.onresize=function() {
+            width=$(".lazy").width();
+            $(".lazy").height(width);
+        }
+    });
 
     var requestStart = 2;  //ajax请求的当前页
     // 从sessionStorage获取数据
@@ -620,6 +636,7 @@
     //下拉获取更多
     $('#items_list').dropload({
         scrollArea : window,
+        distance:100,
         loadDownFn : function(me){
             $.ajax({
                 type: 'POST',
@@ -642,6 +659,7 @@
                     requestStart++;
 
                     var result = '';
+                    var userFlag = [[${userFlag}]];
                     for(var i = 0;i<data.length;i++){
 
                         var title = data[i].title;
@@ -651,10 +669,13 @@
                         var quan = data[i].quan;
                         var volume = data[i].volume;
                         var numId = data[i].numIid;
-                        var shopType=data[i].shopType
+                        var shopType=data[i].shopType;
+                        var clickUrl = data[i].clickUrl;
+                        var quanUrl = data[i].quanUrl;
 
-                        var a_link =context+'item_detail?title='+encodeURI(title)+"&picUrl="+encodeURI(picUrl)+"&price="+price+"&couponPrice="+couponPrice
-                        +"&quan="+quan+"&volume="+volume+"&numId="+numId+"&shopType="+shopType;
+                        var a_link =context+'item_detail?title='+encodeURIComponent(title)+"&picUrl="+encodeURIComponent(picUrl)+"&price="+price+"&couponPrice="+couponPrice
+                        +"&quan="+quan+"&volume="+volume+"&numId="+numId+"&shopType="+shopType+"&clickUrl="+encodeURIComponent(clickUrl)+"&quanUrl="+encodeURIComponent(quanUrl)
+                        +"&userFlag="+userFlag;
 
 
                         result +='<li><div class="goods-lists-goods">';
@@ -688,6 +709,10 @@
                         $('.index-goods-lists').append(result);
                         $("img.lazy").lazyload();
                         result = '';
+
+                        //图片的宽高相同
+                        var width=$(".lazy").width();
+                        $(".lazy").height(width);
 
                     }
                     $('#loading').html('<span class="am-text-sm am-text-success"><i class="am-icon-spinner am-icon-pulse am-margin-right-xs"></i>商品正在赶来的路上，请稍后</span>');

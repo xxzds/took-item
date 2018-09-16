@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * 此处，超级搜接口改到淘宝客接口
  * @author shuai.ding
  * @date 2018年06月04日 下午10:45
  */
@@ -36,10 +37,12 @@ public class SuperSearchController {
      * @return
      */
     @RequestMapping("to_super_search")
-    public String toSuperSearch(Model model){
+    public String toSuperSearch(Integer userFlag, Model model){
         //查询热门关键字
         List<TookHotKeyword> tookHotKeywords = tookItemService.getRandomKeywords(10);
         model.addAttribute("tookHotKeywords",tookHotKeywords);
+
+        model.addAttribute("userFlag",userFlag);
 
         return "to_super_search";
     }
@@ -52,9 +55,11 @@ public class SuperSearchController {
      * @return
      */
     @RequestMapping("super_search")
-    public String superSearch(Model model,String title,Integer status,Boolean hasHyq){
+    public String superSearch(Model model,String title,Integer status,Boolean hasHyq,Integer userFlag){
         //关键字
         model.addAttribute("title",title);
+
+        model.addAttribute("userFlag",userFlag);
 
         Map<String,String> params = new HashMap<>();
         //选中的条件
@@ -93,13 +98,13 @@ public class SuperSearchController {
                 case 0:  //综合
                     break;
                 case 1: //人气
-                    params.put("queryType","2");
+                    params.put("sort","tk_total_sales_des");
                     break;
                 case 2:  //销量
-                    params.put("sortType","9");
+                    params.put("sort","total_sales_des");
                     break;
                 case 3:  //价格
-                    params.put("sortType","3");
+                    params.put("sort","price_des");
                     break;
                 default:
                     break;
@@ -108,13 +113,13 @@ public class SuperSearchController {
 
         //只选择有优惠券的商品
         if(hasHyq !=null && hasHyq==true){
-            params.put("dpyhq","1");
+            params.put("hasCoupon","true");
         }
         params.put("q",title);
-        params.put("currentPage",currentPage.toString());
+        params.put("pageNo",currentPage.toString());
         params.put("pageSize",pageSize.toString());
 
-        String content = HttpClientUtils.doPost(serverUrlConfig.getSuperSearchItemsUrl(),params);
+        String content = HttpClientUtils.doPost(serverUrlConfig.getTbkApiItemUrl(),params);
 
         PageResult<Item> result = JSON.parseObject(content,new TypeReference< PageResult< Item>>(){});
 

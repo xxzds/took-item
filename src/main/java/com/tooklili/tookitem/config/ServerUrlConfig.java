@@ -30,7 +30,7 @@ public class ServerUrlConfig {
 
     /**
 
-     * 获取淘口令接口
+     * 获取淘口令接口(淘宝客接口)
      */
     private  String twdAndShortLinkInfoUrl;
 
@@ -39,6 +39,21 @@ public class ServerUrlConfig {
      */
     private  String superSearchItemsUrl;
 
+    /**
+     * 通过淘宝客接口获取商品列表
+     */
+    private String tbkApiItemUrl;
+
+
+    /**
+     * 通过分类，获取优惠券商品列表
+     */
+    private String materialGetItemsUrl;
+
+    /**
+     * 好券清单接口
+     */
+    private String getCouponItemsUrl;
 
     /**
      * 动态获取基础url
@@ -64,12 +79,22 @@ public class ServerUrlConfig {
     }
 
     public String getTwdAndShortLinkInfoUrl() {
-        return getBaseUrl() +"/getTwdAndShortLinkInfo";
+        return getBaseUrl() +"/tbk/getTpwdAndShortLink";
     }
 
     public String getSuperSearchItemsUrl() {
         return getBaseUrl() +"/superSearchItems";
     }
 
+    public String getTbkApiItemUrl() {
+        return getBaseUrl() +"/tbk/material/optiona/getItems";
+    }
 
+    public String getMaterialGetItemsUrl() {
+        return getBaseUrl()+"/tbk/material/getItems";
+    }
+
+    public String getGetCouponItemsUrl() {
+        return getBaseUrl()+"/tbk/getCouponItems";
+    }
 }

@@ -1,6 +1,7 @@
 package com.tooklili.tookitem.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 import com.tooklili.tookitem.config.ServerUrlConfig;
@@ -17,6 +18,8 @@ import com.tooklili.tookitem.service.TookItemNineService;
 import com.tooklili.tookitem.service.TookItemService;
 import com.tooklili.tookitem.service.TookItemTwentyService;
 import com.tooklili.tookitem.util.HttpClientUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,6 +37,7 @@ import java.util.Map;
  */
 @Controller
 public class ItemController {
+    private static  final Logger LOGGER = LoggerFactory.getLogger(ItemController.class);
 
     @Autowired
     private TookItemNineService tookItemNineService;
@@ -104,6 +108,7 @@ public class ItemController {
                 items = tookItemTwentyService.findItemTwenty(queryItemVo,1,10);
                 break;
         }
+
         model.addAttribute("items",items.getData());
         model.addAttribute("cate",cateEnum.toString());
         return "item";
@@ -172,5 +177,87 @@ public class ItemController {
 
 
         return "item_detail";
+    }
+
+    /**
+     * 品牌券商品
+     * @return
+     */
+    @RequestMapping("/brand_coupon_items")
+    public String brandCouponItems(){
+        return "brand_coupon_item";
+    }
+
+
+    /**
+     * 母婴主题
+     * @return
+     */
+    @RequestMapping("/meternal_coupon_items")
+    public String maternalCouponItems(){
+        return "meternal_coupon_item";
+    }
+
+    /**
+     * 好券直播
+     * @return
+     */
+    @RequestMapping("/good/conpon/live")
+    public String goodConponLive(){
+        return "good_coupon_item";
+    }
+
+
+
+    /**
+     * 通过物料id获取商品列表
+     * @param materialId   物料id
+     * @param currentPage  当前页
+     * @param pageSize     页面大小
+     * @param model
+     * @return
+     */
+    @RequestMapping("/get_items_materialId")
+    public String getItemsBymaterialId(Long materialId,Integer currentPage,Integer pageSize,Model model){
+        Map<String,String> params = new HashMap<>();
+        params.put("materialId",materialId+"");
+        params.put("currentPage",currentPage+"");
+        params.put("pageSize",pageSize+"");
+
+        String content = HttpClientUtils.doPost(serverUrlConfig.getMaterialGetItemsUrl(),params);
+        LOGGER.info(content);
+        ListResult<Item> items = JSON.parseObject(content,new TypeReference< ListResult< Item>>(){});
+
+        if(items.getData().size()==0){
+            return "empty";
+        }
+        model.addAttribute("items",items.getData());
+        return "item_list";
+    }
+
+
+    /**
+     * 通过好券清单接口获取优惠券商品
+     * @param q
+     * @param pageNo
+     * @param pageSize
+     * @return
+     */
+    @RequestMapping("/getCouponItems")
+    @ResponseBody
+    public PageResult<Item> getCouponItems(String q,Long pageNo,Long pageSize){
+        Map<String,String> params = new HashMap<>();
+        params.put("q",q);
+        if(pageNo != null){
+            params.put("pageNo",String.valueOf(pageNo));
+        }
+        if(pageSize != null){
+            params.put("pageSize",String.valueOf(pageSize));
+        }
+
+        String content = HttpClientUtils.doPost(serverUrlConfig.getGetCouponItemsUrl(),params);
+        PageResult<Item> items = JSON.parseObject(content,new TypeReference< PageResult< Item>>(){});
+        return items;
+
     }
 }

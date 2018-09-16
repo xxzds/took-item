@@ -9,6 +9,7 @@
     <result column="price" property="price" jdbcType="VARCHAR" />
     <result column="coupon_price" property="couponPrice" jdbcType="VARCHAR" />
     <result column="quan" property="quan" jdbcType="VARCHAR" />
+    <result column="quan_url" property="quanUrl" jdbcType="VARCHAR" />
     <result column="volume" property="volume" jdbcType="VARCHAR" />
     <result column="coupon_start_time" property="couponStartTime" jdbcType="VARCHAR" />
     <result column="coupon_end_time" property="couponEndTime" jdbcType="VARCHAR" />
@@ -17,7 +18,7 @@
     <result column="cate_name" property="cateName" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, num_iid, title, pic_url, price, coupon_price, quan, volume, coupon_start_time, 
+    id, num_iid, title, pic_url, price, coupon_price, quan,quan_url, volume, coupon_start_time,
     coupon_end_time, add_time, shop_type, cate_name
   </sql>
 
@@ -30,5 +31,6 @@
           cate_name = #{cateName}
         </if>
     </where>
+    order by LENGTH (volume) desc ,volume desc
   </select>
 </mapper>

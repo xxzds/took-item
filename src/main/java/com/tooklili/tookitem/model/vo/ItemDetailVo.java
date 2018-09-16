@@ -32,6 +32,11 @@ public class ItemDetailVo {
     private String quan;
 
     /**
+     * 领券地址
+     */
+    private String quanUrl;
+
+    /**
      * 销量
      */
     private String volume;
@@ -45,6 +50,16 @@ public class ItemDetailVo {
      * 商品类别(B、天猫 C、淘宝)
      */
     private String shopType;
+
+    /**
+     * 单品淘客链接
+     */
+    private String clickUrl;
+
+    /**
+     * 用户表示 （1、ds 2、gc）
+     */
+    private Integer userFlag;
 
     public String getTitle() {
         return title;
@@ -108,5 +123,29 @@ public class ItemDetailVo {
 
     public String getShopType() {
         return shopType;
+    }
+
+    public String getQuanUrl() {
+        return quanUrl;
+    }
+
+    public String getClickUrl() {
+        return clickUrl;
+    }
+
+    public void setQuanUrl(String quanUrl) {
+        this.quanUrl = quanUrl;
+    }
+
+    public void setClickUrl(String clickUrl) {
+        this.clickUrl = clickUrl;
+    }
+
+    public Integer getUserFlag() {
+        return userFlag;
+    }
+
+    public void setUserFlag(Integer userFlag) {
+        this.userFlag = userFlag;
     }
 }

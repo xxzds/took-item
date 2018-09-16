@@ -35,7 +35,16 @@
 <script th:src="@{/js/plugin/lazyload.js(v=201805271740)}"></script>
 <script th:src="@{/js/getUrlParam.js}"></script>
 <script>
-
+    // 设置图片宽高
+    $(function() {
+        var width=0;
+        width=$(".lazy").width();
+        $(".lazy").height(width);
+        window.onresize=function() {
+            width=$(".lazy").width();
+            $(".lazy").height(width);
+        }
+    });
 
 
 
@@ -96,7 +105,7 @@
                 data: {currentPage: toPage,pageSize:10,cateName:cateName},
                 type: 'post',
                 error: function (xhr, type, errorThrown) {
-                    getData($wrapper, data, direction);
+                    console.log(xhr);
                 },
                 success: function (result, status, xhr) {
                     needLoadMore  = false;
@@ -111,6 +120,10 @@
                         isLoading = false;
                         page++;
                         $('.goods-list').attr('data-page',page);
+
+                        //图片的宽高相同
+                        var width=$(".lazy").width();
+                        $(".lazy").height(width);
 
                         //将参数写入会话历史,改变url地址
                         window.history.replaceState(

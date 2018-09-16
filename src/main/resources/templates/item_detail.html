@@ -206,9 +206,9 @@
     <div class="ads-list" data-page="0">
         <div class="goods-item" th:each="item:${items}" style="background-color: #fff">
             <a data-transition="slide" th:href="@{'item_detail'(title=${item.title},picUrl=${item.picUrl},price=${item.price}
-        ,couponPrice=${item.couponPrice},quan=${item.quan},volume=${item.volume},numId=${item.numIid},shopType=${item.shopType})}" class="img ui-link">
+        ,couponPrice=${item.couponPrice},quan=${item.quan},volume=${item.volume},numId=${item.numIid},shopType=${item.shopType},clickUrl=${item.clickUrl},quanUrl=${item.quanUrl})}" class="img ui-link">
                 <span class="coupon-wrapper  theme-bg-color-1">券 <i>￥</i><b>5</b></span>
-                <img  th:attr="src=@{${item.picUrl}+'_310x310.jpg'}">
+                <img class="good_pic"  th:attr="src=@{${item.picUrl}+'_310x310.jpg'}">
             </a>
             <a data-transition="slide" th:href="@{'item_detail'(title=${item.title},picUrl=${item.picUrl},price=${item.price}
         ,couponPrice=${item.couponPrice},quan=${item.quan},volume=${item.volume},numId=${item.numIid})}" class="title ui-link">
@@ -389,7 +389,7 @@
 </script>
 <section class="more-couppon-goods">
     <!--<a href="http://www.tooklili.com/index.php#more-goods">返回首页</a>-->
-    <a th:href="@{/query_item/nine}">返回首页</a>
+    <a th:href="@{/good/conpon/live}">返回首页</a>
 </section>
 
 <script src="http://cmsstatic.dataoke.com//js/layer/layer.js?v=201805301044"></script>
@@ -692,7 +692,10 @@
     });
 
 
-    var jumpUrl;  //直接购买地址
+
+
+    var jumpUrl = (![[${item.quanUrl}]] || [[${item.quanUrl}]] == 'null') ? [[${item.clickUrl}]] : [[${item.quanUrl}]];  //直接购买地址
+    if(jumpUrl.indexOf("https:") == -1) jumpUrl="https:"+jumpUrl;
     var content;  //口令分享的内容
     var tkl;    //淘口令的复制内容
     /**
@@ -701,7 +704,7 @@
      * @param type   1、领券购买  2、淘口令 3、通过口令分享
      */
     function getTkl(numIid,type) {
-        if(type == 1 && jumpUrl != null){
+        if(type == 1){
             window.location.href = jumpUrl;
             return;
         }
@@ -722,7 +725,10 @@
             type: "POST",
             url: [[${twdAndShortLinkInfoUrl}]],
             data: {
-                auctionid: numIid,
+                text:[[${item.title}]],
+                url:jumpUrl,
+                logo:[[${item.picUrl}]],
+                userFlag:[[${item.userFlag}]]
             },
             dataType: "json",
             success: function (result) {
@@ -733,31 +739,18 @@
 
                 var data = result.data;
 
-                //跳转链接
-                var a = navigator.userAgent;
-                if (a.indexOf('wechat') > -1 || a.indexOf("MicroMessenger") > -1) {
-                    jumpUrl = "http://www.tooklili.com:81/taobao?backurl=" + encodeURIComponent(data.couponLink || data.clickUrl);
-                } else {
-                    jumpUrl = data.couponLink || data.clickUrl;
-                }
 
                 //淘口令
-                tkl = data.couponLinkTaoToken || data.taoToken;
+                tkl = data.couponLinkTaoToken;
 
                 //口令分享
                 content=[[${item.title}]];
                 content+="\n【在售价】"+[[${item.price}]]+"元"
                 content+="\n【券后价】"+[[${item.couponPrice}]]+"元";
-                content+="\n【下单链接】"+ (data.customCouponShortLinkUrl || data.customShortLinkUrl);
+                content+="\n【下单链接】"+ data.couponShortLinkUrl;
                 content+="\n-----------------";
-                content+="\n复制这条信息，"+(data.couponLinkTaoToken || data.taoToken)+" ，打开【手机淘宝】即可查看";
+                content+="\n复制这条信息，"+tkl+" ，打开【手机淘宝】即可查看";
                 $('#codeText').html(content);
-
-
-                if(type == 1 && jumpUrl != null){
-                    window.location.href = jumpUrl;
-                    return;
-                }
 
                 if(type == 2 && tkl != null){
                     $canvasImage.getCodeShopping({code:tkl,pic:[[${item.picUrl}]]+"_480x480.jpg"});
@@ -786,6 +779,18 @@
             history.go(-1);
         }
     })
+
+
+    // 设置图片宽高
+    $(function() {
+        var width=0;
+        width=$(".good_pic").width();
+        $(".good_pic").height(width);
+        window.onresize=function() {
+            width=$(".good_pic").width();
+            $(".good_pic").height(width);
+        }
+    });
 </script>
 </body>
 </html>

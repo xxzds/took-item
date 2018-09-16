@@ -43,7 +43,7 @@ public class ItemSelectController {
         }
 
         model.addAttribute("items",result.getData());
-        return "item_list";
+        return "select/item_list";
     }
 
 

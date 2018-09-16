@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta http-equiv="Cache-Control" content="max-age=7200" />
+
+    <title>好券直播-促优网-专注独家正品折扣，返利-上促优，便宜购！</title>
+    <meta content="促优网、返利、淘宝客、优惠券" name="keywords">
+    <meta content="促优网专注独家折扣，每天精选上千款超值商品，天天更新，件件超值。商城优品超值买，优质大牌低价购，相信品牌的品质，购物就来促优网！" name="description">
+    <link th:href="@{/css/common.css(v=201800714)}" rel="stylesheet" type="text/css">
+    <link th:href="@{/js/plugin/swiper/swiper-3.4.2.min.css}" rel="stylesheet" type="text/css">
+    <style>
+        .icon_nav_tab {
+            height: 44px;
+            z-index: 80;
+            zoom: 1;
+            position: fixed;
+            top: 44px;
+            width: 100%;
+            background: #fff;
+            transform-origin: center;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .icon_nav_tab, .icon_nav_tab.icon_nav_tab_whole {
+            padding-right: 0;
+        }
+
+        .icon_nav_tab .swiper-container {
+            position: relative;
+            z-index: 1;
+            overflow: initial;
+        }
+
+        .swiper-container {
+            height: 100%;
+        }
+
+        .icon_nav_tab .swiper-wrapper {
+            height: 44px;
+            text-align: center;
+            position: relative;
+            z-index: 50;
+            zoom: 1;
+            display: -webkit-box;
+            display: -moz-box;
+            display: -ms-flexbox;
+            display: -webkit-flex;
+            display: flex;
+        }
+
+        .swiper-container-android .swiper-slide, .swiper-wrapper {
+            -webkit-transform: translate3d(0,0,0);
+            -moz-transform: translate3d(0,0,0);
+            -o-transform: translate(0,0);
+            -ms-transform: translate3d(0,0,0);
+            transform: translate3d(0,0,0);
+        }
+
+        .icon_nav_tab .swiper-slide {
+            position: relative;
+            z-index: 5;
+            display: block;
+            width: auto;
+            line-height: 44px;
+            margin: auto;
+            overflow: hidden;
+            -webkit-flex-shrink: 0;
+            -ms-flex: 0 0 auto;
+            flex-shrink: 0;
+        }
+
+        .icon_nav_tab .swiper-slide.active a {
+            color: #fe4a65;
+            border-bottom: 2px #fe4a65 solid;
+        }
+
+        .icon_nav_tab .swiper-slide a {
+            display: block;
+            position: relative;
+            z-index: 1;
+            zoom: 1;
+            padding: 0 2px;
+            margin: 0 8px;
+            font-size: 14px;
+            text-align: center;
+            height: 42px;
+            line-height: 44px;
+            color: #333;
+            border-bottom: solid 2px #fff;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+    </style>
+    <script th:src="@{/js/plugin/jquery.min.js}"></script>
+    <script th:src="@{/js/plugin/swiper/swiper-3.4.2.jquery.min.js(v=201805271740)}"></script>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        var context = /*[[@{/}]]*/;
+        /*]]>*/
+    </script>
+</head>
+<body>
+
+<!--head-->
+<div class="main-title clearfix theme-bg-color-1">
+    <div class="menu-detail">
+        <span>好券直播</span>
+    </div>
+</div>
+
+<input type="hidden" id="materialId"/>
+<div class="icon_nav_tab">
+    <div class="swiper-container  swiper-container-horizontal swiper-container-android">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide active"><a href="javascript:;" data-cid="3756">综合</a></div>
+            <div class="swiper-slide"><a href="javascript:;" data-cid="3767">女装</a></div>
+            <div class="swiper-slide"><a href="javascript:;" data-cid="3758">家居家装</a></div>
+            <div class="swiper-slide"><a href="javascript:;" data-cid="3759">数码家电</a></div>
+            <div class="swiper-slide"><a href="javascript:;" data-cid="3762">鞋包配饰</a></div>
+            <div class="swiper-slide"><a href="javascript:;" data-cid="3763">美妆个护</a></div>
+            <div class="swiper-slide"><a href="javascript:;" data-cid="3764">男装</a></div>
+            <div class="swiper-slide"><a href="javascript:;" data-cid="3765">内衣</a></div>
+            <div class="swiper-slide"><a href="javascript:;" data-cid="3760">母婴</a></div>
+            <div class="swiper-slide"><a href="javascript:;" data-cid="3761">食品</a></div>
+            <div class="swiper-slide"><a href="javascript:;" data-cid="3766">运动户外</a></div>
+        </div>
+    </div>
+</div>
+
+<!--content-->
+<div class="goods-list">
+
+</div>
+
+<div class="pullup-goods">
+    <div class="label">商品加载中...</div>
+</div>
+
+<div class="toTop">&#xe6a4;</div>
+
+<div th:include="template::footer"></div>
+
+<script th:src="@{/js/plugin/lazyload.js(v=201805271740)}"></script>
+<script th:src="@{/js/getUrlParam.js}"></script>
+<script>
+
+
+    $(function () {
+        var page= 1;
+        var isFinish = false;
+        var isLoading = false;
+        var needLoadMore = false;
+
+
+
+        if(UrlParm.hasParm("materialId")){
+            var materialId = UrlParm.parm("materialId");
+            $('#materialId').val(materialId);
+
+            //列表缓存数据
+            var data = sessionStorage.getItem('good_coupon_item');
+            if(data !=null && data != ''){
+                $('.goods-list').html(data);
+                $("img.lazy").lazyload();
+            }
+
+            //分页信息
+            if(history.state != null &&  history.state.page != null){
+                page = history.state.page;
+            }
+
+            //选中分类
+            $('.swiper-slide a').each(function(){
+               var cid = $(this).attr('data-cid');
+               if(cid == materialId){
+                   $(this).parent().parent().children().removeClass('active');
+                   $(this).parent().addClass('active');
+               }
+            })
+        }else{
+            getData(page);
+        }
+
+
+        var documentHeightOld;
+        $(window).scroll(function (e) {
+            if (isFinish || isLoading) {
+                return;
+            }
+            var y = $(document).scrollTop();
+            maxScrollY = $(document).height();
+            windowHeight = $(window).height();
+            if (Math.abs(maxScrollY - windowHeight - y) > 200) {
+                return;
+            }
+            console.log(documentHeightOld+"-"+maxScrollY);
+            //如果文档的历史高度 和最新的高度相等，说明数据还没加载好，防止重复加载数据
+            if(documentHeightOld == maxScrollY){
+                return;
+            }
+            documentHeightOld = maxScrollY;
+            getData(page);
+        });
+
+        /**
+         * 异步请求数据
+         * @param toPage
+         */
+        function getData(toPage) {
+            if (isFinish) {
+                return;
+            }
+            var materialId = $('#materialId').val();
+            if(!materialId){
+                materialId = $('.swiper-slide').find('a').attr('data-cid');
+            }
+            $.ajax(context+"get_items_materialId",{
+                data: {currentPage: toPage,pageSize:10,materialId:materialId},
+                type: 'post',
+                error: function (xhr, type, errorThrown) {
+                    alert("网络异常")
+                },
+                success: function (result, status, xhr) {
+                    needLoadMore  = false;
+                    if(result==null || result ==""){
+                        isLoading = false;
+                        $('.pullup-goods .label').html('没有更多商品啦');
+                        isFinish = true;
+                    }else{
+                        $('.goods-list').append(result);
+                        $("img.lazy").lazyload();
+                        maxScrollY = $(document).height();
+                        isLoading = false;
+                        page++;
+                        $('.goods-list').attr('data-page',page);
+
+                        //图片的宽高相同
+                        var width=$(".lazy").width();
+                        $(".lazy").height(width);
+
+                        //将参数写入会话历史,改变url地址
+                        window.history.replaceState(
+                            {materialId:materialId,page:page},
+                            document.title,
+                            window.location.pathname+"?materialId="+materialId
+                        )
+
+                        //保存list数据到sessionStorage
+                        sessionStorage.setItem('good_coupon_item',  $('.goods-list').html());
+
+                    }
+                }
+            });
+        }
+
+
+        //点击分类
+        $('.swiper-slide').off('click').on('click',function () {
+            $(".goods-list").html('');
+            $(this).parent().children().removeClass('active');
+           $(this).addClass('active');
+
+           page=1;
+
+           var materialId = $(this).find('a').attr('data-cid');
+           $('#materialId').val(materialId);
+
+           //防止重复请求数据(scroll事件可能会触发一次）
+            documentHeightOld = $(document).height();
+           getData(page);
+        });
+
+
+
+    });
+
+    //分类滚动
+    new Swiper ('.swiper-container', {
+        slidesPerView : 'auto',
+    })
+
+
+</script>
+</body>
+</html>

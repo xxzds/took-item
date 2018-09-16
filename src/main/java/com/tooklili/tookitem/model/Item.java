@@ -50,6 +50,11 @@ public class Item {
     private String quan;
 
     /**
+     * 领券地址
+     */
+    private String quanUrl;
+
+    /**
      * 优惠券总数
      */
     private Integer quanSurplus;
@@ -91,6 +96,16 @@ public class Item {
      * 商品简单描述
      */
     private String intro;
+
+    /**
+     * 优惠券id
+     */
+    private String couponId;
+
+    /**
+     * 单品淘客链接
+     */
+    private String clickUrl;
 
 
     public Long getId() {
@@ -220,5 +235,29 @@ public class Item {
 
     public void setIntro(String intro) {
         this.intro = intro;
+    }
+
+    public String getCouponId() {
+        return couponId;
+    }
+
+    public String getClickUrl() {
+        return clickUrl;
+    }
+
+    public void setCouponId(String couponId) {
+        this.couponId = couponId;
+    }
+
+    public void setClickUrl(String clickUrl) {
+        this.clickUrl = clickUrl;
+    }
+
+    public String getQuanUrl() {
+        return quanUrl;
+    }
+
+    public void setQuanUrl(String quanUrl) {
+        this.quanUrl = quanUrl;
     }
 }
