@@ -526,6 +526,8 @@
     var context = /*[[@{/}]]*/;
     /*]]>*/
 
+    var userFlag = [[${userFlag == null ? '':userFlag}]];
+
     // 设置图片宽高
     $(function() {
         var width=0;
@@ -659,7 +661,6 @@
                     requestStart++;
 
                     var result = '';
-                    var userFlag = [[${userFlag}]];
                     for(var i = 0;i<data.length;i++){
 
                         var title = data[i].title;
@@ -726,7 +727,7 @@
                     window.history.replaceState(
                         {page:requestStart,title:$.trim($('#itemurl').val()),status:status,hasHyq:hasHyq},
                         document.title,
-                        window.location.pathname+"?title="+encodeURI($.trim($('#itemurl').val()))+"&status="+status+"&hasHyq="+hasHyq
+                            window.location.pathname+"?title="+encodeURI($.trim($('#itemurl').val()))+"&status="+status+"&hasHyq="+hasHyq+"&userFlag="+userFlag
                     )
 
                     //保存list数据到sessionStorage
@@ -747,13 +748,13 @@
     $('.fq-sort').click(function(){
 
          status = $(this).attr('data-status');
-        window.location.href=context+'super_search?title='+encodeURI($.trim($('#itemurl').val()))+"&status="+status+"&hasHyq="+hasHyq;
+        window.location.href=context+'super_search?title='+encodeURI($.trim($('#itemurl').val()))+"&status="+status+"&hasHyq="+hasHyq+"&userFlag="+userFlag;
     });
 
     //优惠券的选择事件
     $("#yhq").change(function() {
         hasHyq =$('#yhq').prop('checked');
-        window.location.href=context+'super_search?title='+encodeURI($.trim($('#itemurl').val()))+"&status="+status+"&hasHyq="+hasHyq;
+        window.location.href=context+'super_search?title='+encodeURI($.trim($('#itemurl').val()))+"&status="+status+"&hasHyq="+hasHyq+"&userFlag="+userFlag;
     });
 
     $("img.lazy").lazyload();
