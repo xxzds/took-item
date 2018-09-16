@@ -153,6 +153,9 @@
     <script th:inline="javascript">
 
         var userFlag = [[${userFlag}]];
+        if(userFlag == null){
+            userFlag  = '';
+        }
 
         $('#itemurl').val('');
 
